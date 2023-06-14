@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 // Первая функция для проверки длины строки
 function checkLengthString (string, length) {
-  return string.length > length;
+  return string.length <= length;
 }
 
 console.log(checkLengthString('строка для проверки', 25));
