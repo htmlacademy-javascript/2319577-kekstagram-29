@@ -59,10 +59,6 @@ const DESCRIPTIONS = [
   'Машина, проезжающая около высунувших морды бегемотов',
 ];
 
-// const getRandomDescriptions = () => ({
-//   description: `${getRandomArrayElement(DESCRIPTIONS)}`,
-// });
-
 // Создание рандомного имени
 const NAMES = [
   'Иван',
@@ -91,10 +87,6 @@ const SURNAMES = [
   'Кадабра',
 ];
 
-// const getRandomNames = () => ({
-//   name: `${getRandomArrayElement(NAMES) } ${ getRandomArrayElement(SURNAMES)}`,
-// });
-
 // 8 комментариев
 const MESSAGES = [
   'Всё отлично!',
@@ -107,22 +99,8 @@ const MESSAGES = [
   'Как можно было поймать такой неудачный момент?!',
 ];
 
-// const getRandomComments = () => ({
-//   comments: `${getRandomArrayElement(MESSAGES)}`,
-// });
-
-// id
-// url
-// description
-// likes
-// comments
-//   id
-//   avatar
-//   maessage
-//   name
-
 // Генерация комментариев, вкл. в себя id, аватарку, сообщение и имя пользователя
-const makeComments = () => {
+const makeComment = () => {
   const commentId = createId(1, 100);
   return {
     id: commentId(),
@@ -138,7 +116,7 @@ const makePhotosDescriptions = (_, index) => ({
   url: `photos/${index + 1}.jpg`,
   description: DESCRIPTIONS[index],
   likes: getRandomInteger(0, 100),
-  comments: Array.from({length: getRandomInteger(0, 15) }, makeComments)
+  comments: Array.from({length: getRandomInteger(0, 15) }, makeComment)
 });
 
 // Создание массива, в котором хранятся все данные
@@ -146,4 +124,3 @@ const photoDescriptions = Array.from({length: variableValue}, makePhotosDescript
 
 // Вызов массива данных в консоль
 console.log(photoDescriptions);
-
