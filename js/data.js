@@ -1,6 +1,4 @@
-import {getRandomInteger} from './util.js';
-import {getRandomArrayElement} from './util.js';
-import {createId} from './util.js';
+import {getRandomInteger, getRandomArrayElement, createId} from './util.js';
 
 // Количество значений
 const variableValue = 25;
@@ -94,7 +92,4 @@ const makePhotosDescriptions = (_, index) => ({
   comments: Array.from({length: getRandomInteger(0, 15) }, makeComment)
 });
 
-// Создание массива, в котором хранятся все данные
-const photoDescriptions = Array.from({length: variableValue}, makePhotosDescriptions);
-
-export {photoDescriptions};
+export {variableValue, makePhotosDescriptions};
