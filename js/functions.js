@@ -4,7 +4,7 @@ function checkLengthString (string, length) {
   return string.length <= length;
 }
 
-console.log(checkLengthString('строка для проверки', 25));
+console.log(checkLengthString('строка для проверки', 25)); // true
 
 // Вторая функция для проверки, является ли строка палиндромом
 function isPalindrom(rawString) {
@@ -17,11 +17,11 @@ function isPalindrom(rawString) {
   return true;
 }
 
-console.log(isPalindrom('топот'));
-console.log(isPalindrom('ДовОд'));
-console.log(isPalindrom('Око'));
-console.log(isPalindrom('saippuakivikauppias'));
-console.log(isPalindrom('А вот и нет'));
+console.log(isPalindrom('топот')); // true
+console.log(isPalindrom('ДовОд')); // true
+console.log(isPalindrom('Око')); // true
+console.log(isPalindrom('saippuakivikauppias')); // true
+console.log(isPalindrom('А вот и нет')); // false
 
 // Третья функция извлечения цифр из строки
 function extractNumber(arg) {
