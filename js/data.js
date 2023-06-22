@@ -1,7 +1,7 @@
 import {getRandomInteger, getRandomArrayElement, createId} from './util.js';
 
 // Количество значений
-const variableValue = 25;
+export const variableValue = 25;
 
 // Описание фото
 const DESCRIPTIONS = [
@@ -84,12 +84,10 @@ const makeComment = () => {
 };
 
 // Генерация фото, вкл. в себя id, ссылку на фото, описание фото, кол-во лайков, массив комментариев
-const makePhotosDescriptions = (_, index) => ({
+export const makePhotosDescriptions = (_, index) => ({
   id: index + 1,
   url: `photos/${index + 1}.jpg`,
   description: DESCRIPTIONS[index],
   likes: getRandomInteger(0, 100),
   comments: Array.from({length: getRandomInteger(0, 15) }, makeComment)
 });
-
-export {variableValue, makePhotosDescriptions};
