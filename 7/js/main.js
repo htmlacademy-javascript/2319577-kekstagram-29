@@ -1,9 +1,10 @@
-/* eslint-disable no-console */
 // import './util.js';
-import {variableValue, makePhotosDescriptions} from './data.js';
+import {getPhotosData} from './data.js';
 
-// Создание массива, в котором хранятся все данные
-const photoDescriptions = Array.from({length: variableValue}, makePhotosDescriptions);
+// Использование функции
+const data = getPhotosData(25);
+const data2 = getPhotosData(10);
 
 // Вызов массива данных в консоль
-console.log(photoDescriptions);
+window.console.log(data);
+window.console.log(data2);
