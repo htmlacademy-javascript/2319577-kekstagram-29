@@ -75,14 +75,14 @@ console.log('Четвертая функция (5.16. Функции возвр�
  * @return {boolean} true - если встреча в течении рабочего дня состоится, иначе - false
  */
 
+function format (time) {
+  return parseFloat(time.replace(':', '.'));
+}
+
 function willBeMeeting (startDay, endDay, startMeeting, timeMeeting) {
   const timeMeetingToHHMM = `${Math.floor(timeMeeting / 60)}:${timeMeeting % 60}`; //минуты в формат HH:MM
-  // console.log(timeMeetingToHHMM);
-  if (parseFloat(startMeeting.replace(':', '.')) + parseFloat(timeMeetingToHHMM.replace(':', '.')) <= parseFloat(endDay.replace(':', '.')) && startMeeting.replace(':', '.') >= parseFloat(startDay.replace(':', '.'))) {
-    return true;
-  } else {
-    return false;
-  }
+  const durationMeeting = format(startMeeting) + format(timeMeetingToHHMM);
+  return durationMeeting <= format(endDay) && format(startMeeting) >= format(startDay);
 }
 
 console.log(willBeMeeting('08:00', '17:30', '14:00', 90)); // true
