@@ -25,6 +25,7 @@ export const renderPictures = (data) => {
   //Функция перебора всех объектов массива, возвращающая заполненный объект
   data.forEach((cardObj) => {
     fragment.appendChild(fillCardTemplate(cardObj));
+    window.console.log(cardObj);
   });
   //Внесение данных в контейнер
   picturesContainer.appendChild(fragment);
