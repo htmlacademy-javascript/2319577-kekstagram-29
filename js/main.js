@@ -1,10 +1,6 @@
-// import './util.js';
 import {getPhotosData} from './data.js';
+import {renderPictures } from './pictures.js';
 
-// Использование функции
-const data = getPhotosData(25);
-const data2 = getPhotosData(10);
+window.console.log(getPhotosData(25));
 
-// Вызов массива данных в консоль
-window.console.log(data);
-window.console.log(data2);
+renderPictures(getPhotosData(25));

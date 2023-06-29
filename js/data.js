@@ -1,7 +1,7 @@
 import {getRandomInteger, getRandomArrayElement, createId} from './util.js';
 
 // Количество значений
-const variableValue = 25;
+const VARIABLE_VALUE = 25;
 
 // Описание фото
 const DESCRIPTIONS = [
@@ -72,8 +72,15 @@ const MESSAGES = [
   'Как можно было поймать такой неудачный момент?!',
 ];
 
-// Генерация комментариев, вкл. в себя id, аватарку, сообщение и имя пользователя
-const makeComment = () => {
+/**
+ * Функция по созданию массива объектов — список комментариев, вкл. в себя id, аватарку, сообщение и имя пользователя
+ * @param {number} id - идентификатор комментария
+ * @param {string} avatar - ссылка на автар, который формируется по правилу img/avatar-{{случайное число от 1 до 6}}.svg
+ * @param {string} message - комментарий, который формируется случайным образом из массива MESSAGES[]
+ * @param {string} name - имя пользователя данного комментария, которое формируется случайным образом из массивов NAMES[] + SURNAMES[]
+ * @return {array} - массив объектов (комментариев)
+ */
+const getComment = () => {
   const commentId = createId(1, 100);
   return {
     id: commentId(),
@@ -83,18 +90,25 @@ const makeComment = () => {
   };
 };
 
-// Генерация фото, вкл. в себя id, ссылку на фото, описание фото, кол-во лайков, массив комментариев
-const makePhotosDescriptions = (index) => ({
+/**
+ * Функция по созданию массива карточек фото, вкл. в себя id, ссылку на фото, описание фото, кол-во лайков, массив комментариев
+ * @param {number} id - идентификатор фото
+ * @param {string} url - ссылка на фото, которая формируется по правилу photos/{{id от 1 до 25}}.jpg
+ * @param {string} description - случайное описание под фото
+ * @param {number} likes - случайное количество лайков от 0 до 100
+ * @param {array} comments - массив комментариев из getComment
+ */
+const getPhotosDescriptions = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
-  // description: DESCRIPTIONS[index - 1],
-  description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length)],
+  description: DESCRIPTIONS[index - 1],
+  // description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length)],
   likes: getRandomInteger(0, 100),
-  comments: Array.from({length: getRandomInteger(0, 15) }, makeComment)
+  comments: Array.from({length: getRandomInteger(0, 15) }, getComment)
 });
 
 // Экспорт функции, содержащей массив, в котором хранятся все данные
 export const getPhotosData = (num) => {
-  const photoDescriptions = Array.from({length: num}, (_, index) => makePhotosDescriptions(index + 1));
+  const photoDescriptions = Array.from({length: num}, (_, index) => getPhotosDescriptions(index + 1));
   return photoDescriptions;
 };
