@@ -1,7 +1,7 @@
 import {getRandomInteger, getRandomArrayElement, createId} from './util.js';
 
 // Количество значений
-const VARIABLE_VALUE = 25;
+// const VARIABLE_VALUE = 25;
 
 // Описание фото
 const DESCRIPTIONS = [
