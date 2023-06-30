@@ -1,7 +1,7 @@
 import {getRandomInteger, getRandomArrayElement, createId} from './util.js';
 
 // Количество значений
-// const VARIABLE_VALUE = 25;
+const VARIABLE_VALUE = 25;
 
 // Описание фото
 const DESCRIPTIONS = [
@@ -108,7 +108,7 @@ const getPhotosDescriptions = (index) => ({
 });
 
 // Экспорт функции, содержащей массив, в котором хранятся все данные
-export const getPhotosData = (num) => {
-  const photoDescriptions = Array.from({length: num}, (_, index) => getPhotosDescriptions(index + 1));
+export const getPhotosData = () => {
+  const photoDescriptions = Array.from({length: VARIABLE_VALUE}, (_, index) => getPhotosDescriptions(index + 1));
   return photoDescriptions;
 };

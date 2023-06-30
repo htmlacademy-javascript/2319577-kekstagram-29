@@ -1,32 +1,30 @@
 //Выбор элементов в документе с классом .pictures
 const picturesContainer = document.querySelector('.pictures');
-//Добавление "черного ящика" для объектов
-const fragment = document.createDocumentFragment();
 
 //Находим шаблон по id и выбираем содержимое шаблона по классу .picture
 const cardTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-//Функция наполнения контентом с использованием ({деструктуризации})
+//Функция наполнения данными шаблона с использованием ({деструктуризации})
 const fillCardTemplate = ({url, description, comments, likes}) => {
-  //Клонируем шаблон для многократного использования
-  const element = cardTemplate.cloneNode(true);
+  const element = cardTemplate.cloneNode(true); //Клонируем шаблон для многократного использования
 
-  //Заполнение контентом
-  element.querySelector('.picture__img').src = url;
-  element.querySelector('.picture__img').alt = description;
-  element.querySelector('.picture__comments').textContent = comments.length;
-  element.querySelector('.picture__likes').textContent = likes;
+  //Заполнение данными
+  element.querySelector('.picture__img').src = url; //записывается ссылка на изображение
+  element.querySelector('.picture__img').alt = description; //записывается описание изображения
+  element.querySelector('.picture__comments').textContent = comments.length; //записывается только количество
+  element.querySelector('.picture__likes').textContent = likes; //записывается количество лайков
 
-  return element;
+  return element; //Возвращение заполненной карточки
 };
 
 //Функция отрисовки картинок на экспорт в main.js
-export const renderPictures = (data) => {
-  //Функция перебора всех объектов массива, возвращающая заполненный объект
-  data.forEach((cardObj) => {
-    fragment.appendChild(fillCardTemplate(cardObj));
-    window.console.log(cardObj);
+export const renderPictures = (pictures) => {
+  const fragment = document.createDocumentFragment(); //Добавление "черного ящика"-контейнера для объектов
+
+  pictures.forEach((picture) => { //Функция перебора всех карточек массива и добавляет заполнение данными
+    const element = fillCardTemplate(picture);
+    fragment.appendChild(element); //Каждую карточку складируем в контейнер
+    window.console.log(picture); //Вывод в консоль данных каждой карточки
   });
-  //Внесение данных в контейнер
-  picturesContainer.appendChild(fragment);
+  picturesContainer.appendChild(fragment); //Добавляет все данные из контейнера в DOM-дерево
 };
