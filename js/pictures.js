@@ -6,7 +6,7 @@ const fragment = document.createDocumentFragment();
 //Находим шаблон по id и выбираем содержимое шаблона по классу .picture
 const cardTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-//Функция наполнения контентом с использованием ({деструктизации})
+//Функция наполнения контентом с использованием ({деструктуризации})
 const fillCardTemplate = ({url, description, comments, likes}) => {
   //Клонируем шаблон для многократного использования
   const element = cardTemplate.cloneNode(true);
