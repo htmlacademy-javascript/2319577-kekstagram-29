@@ -1,13 +1,20 @@
+import './pictures.js';
+
 const userModalElement = document.querySelector('.big-picture');
-const userModalOpenElement = document.querySelector('.pictere');
-const userModalCloseElement = userModalElement.querySelector('.big-picture__cancel');
+const userModalOpenElement = document.querySelector('.picture');
+// const userModalCloseElement = userModalElement.querySelector('.big-picture__cancel');
 
-userModalOpenElement.onclick = function (evt) {
-  evt.preventDefault();
+userModalOpenElement?.addEventListener('click', () => {
   userModalElement.classList.remove('hidden');
-};
+});
 
-userModalCloseElement.onclick = function (evt) {
-  evt.preventDefault();
-  userModalElement.classList.add('hidden');
-};
+// userModalCloseElement.addEventListener('click', () => {
+//   userModalElement.classList.add('hidden');
+// });
+
+// document.addEventListener('keydown', (evt) => {
+//   if (evt.key === 'Escape') {
+//     evt.preventDefault();
+//     userModalElement.classList.add('hidden');
+//   }
+// });
