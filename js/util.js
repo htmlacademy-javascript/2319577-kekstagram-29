@@ -24,3 +24,8 @@ export const createId = (min, max) => {
     return currentValue;
   };
 };
+
+//Функция нажатия кнопок клавиатуры
+export const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export const isEnterKey = (evt) => evt.key === 'Enter';

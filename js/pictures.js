@@ -28,3 +28,7 @@ export const renderPictures = (pictures) => {
   });
   picturesContainer.appendChild(fragment); //Добавляет все данные из контейнера в DOM-дерево
 };
+
+// export const clearPictures = () => {
+//   picturesContainer.innerHTML = '';
+// };
