@@ -24,7 +24,7 @@ export const renderPictures = (pictures) => {
   pictures.forEach((picture) => { //Функция перебора всех карточек массива и добавляет заполнение данными
     const element = fillCardTemplate(picture);
     fragment.appendChild(element); //Каждую карточку складируем в контейнер
-    window.console.log(picture); //Вывод в консоль данных каждой карточки
+    // window.console.log(picture); //Вывод в консоль данных каждой карточки
   });
   picturesContainer.appendChild(fragment); //Добавляет все данные из контейнера в DOM-дерево
 };
