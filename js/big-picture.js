@@ -6,15 +6,15 @@ const userModalOpenElement = document.querySelector('.picture');
 
 userModalOpenElement?.addEventListener('click', () => {
   userModalElement.classList.remove('hidden');
+
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
+      userModalElement.classList.add('hidden');
+    }
+  });
 });
 
 // userModalCloseElement.addEventListener('click', () => {
 //   userModalElement.classList.add('hidden');
-// });
-
-// document.addEventListener('keydown', (evt) => {
-//   if (evt.key === 'Escape') {
-//     evt.preventDefault();
-//     userModalElement.classList.add('hidden');
-//   }
 // });
