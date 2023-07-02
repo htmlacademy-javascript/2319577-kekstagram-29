@@ -8,30 +8,18 @@ const userModalCloseElement = userModalElement.querySelector('.big-picture__canc
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeUserModal();
   }
 };
 
-function openUserModal () {
-  userModalElement.classList.remove('hidden');
-
-  document.addEventListener('keydown', onDocumentKeydown);
-}
-
-function onClickToOpen () {
-  userModalOpenElement.addEventListener('click', () => {
-    openUserModal();
+userModalOpenElement.forEach((pictures) => {
+  pictures.addEventListener('click', () => {
+    userModalElement.classList.remove('hidden');
   });
-}
+  document.addEventListener('keydown', onDocumentKeydown);
+});
 
-function closeUserModal () {
+userModalCloseElement.addEventListener('click', () => {
   userModalElement.classList.add('hidden');
 
   document.removeEventListener('keydown', onDocumentKeydown);
-}
-
-function onClickToClose () {
-  userModalCloseElement.addEventListener('click', () => {
-    closeUserModal();
-  });
-}
+});
