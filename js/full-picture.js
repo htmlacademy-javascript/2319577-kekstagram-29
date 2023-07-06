@@ -1,6 +1,6 @@
 import {data} from './data.js';
 
-const picturesContainer = document.querySelectorAll('.picture');
+const picturesContainer = document.querySelector('.pictures');
 
 function fillBigPicture(photoObj) {
   const bigPicture = document.querySelector('.big-picture');
@@ -22,6 +22,4 @@ function onPicturesContainerClick(evt) {
   fillBigPicture(photoData);
 }
 
-export const picturesContainerClick = () => {
-  picturesContainer.addEventListener('click', onPicturesContainerClick);
-};
+picturesContainer.addEventListener('click', onPicturesContainerClick);
