@@ -1,25 +1,41 @@
 import './pictures.js';
 import {isEscapeKey} from './util.js';
 
-const userModalElement = document.querySelector('.big-picture');
-const userModalOpenElement = document.querySelectorAll('.picture');
-const userModalCloseElement = userModalElement.querySelector('.big-picture__cancel');
+const bigPictureModal = document.querySelector('.big-picture');
+const picturesContainer = document.querySelectorAll('.picture');
+const bigPictureModalClose = bigPictureModal.querySelector('.big-picture__cancel');
+
+function closeBigPicture() {
+  bigPictureModalClose.classList.add('hidden');
+}
+
+function openBigPicture() {
+  bigPictureModal.classList.remove('hidden');
+  document.querySelector('body').classList.add('modal-open');
+}
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
+    closeBigPicture();
   }
 };
 
-userModalOpenElement.forEach((pictures) => {
-  pictures.addEventListener('click', () => {
-    userModalElement.classList.remove('hidden');
-  });
-  document.addEventListener('keydown', onDocumentKeydown);
-});
-
-userModalCloseElement.addEventListener('click', () => {
-  userModalElement.classList.add('hidden');
+const onBigPictureModalCloseClick = () => {
+  bigPictureModal.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
-});
+  bigPictureModalClose.removeEventListener('click', onBigPictureModalCloseClick);
+};
+
+const onPicturesContainerClick = (evt) => {
+  if(evt.target.closest('picture')) {
+    openBigPicture();
+
+    document.addEventListener('keydown', onDocumentKeydown);
+    bigPictureModalClose.addEventListener('click', onBigPictureModalCloseClick);
+  }
+};
+
+picturesContainer.addEventListener('click', onPicturesContainerClick);

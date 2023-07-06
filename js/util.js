@@ -1,4 +1,3 @@
-// Функция cоздания рандомного числа
 export const getRandomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(min, max));
   const upper = Math.floor(Math.max(min, max));
@@ -6,10 +5,8 @@ export const getRandomInteger = (min, max) => {
   return Math.floor(result);
 };
 
-// Функция поиска рандомного элемента
 export const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-// Функция создания неповторяющегося Id
 export const createId = (min, max) => {
   const previousValues = [];
   return function () {
@@ -25,7 +22,5 @@ export const createId = (min, max) => {
   };
 };
 
-//Функция нажатия кнопок клавиатуры
 export const isEscapeKey = (evt) => evt.key === 'Escape';
-
 export const isEnterKey = (evt) => evt.key === 'Enter';
