@@ -38,4 +38,6 @@ const onPicturesContainerClick = (evt) => {
   }
 };
 
-picturesContainer.addEventListener('click', onPicturesContainerClick);
+export const picturesContainerClick = () => {
+  picturesContainer.addEventListener('click', onPicturesContainerClick);
+};

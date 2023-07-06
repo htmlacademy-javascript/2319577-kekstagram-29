@@ -2,7 +2,7 @@ import {data} from './data.js';
 
 const picturesContainer = document.querySelectorAll('.picture');
 
-function fillBigPicture(PhotoObj) {
+function fillBigPicture(photoObj) {
   const bigPicture = document.querySelector('.big-picture');
   bigPicture.querySelector('.big-picture__img img').src = photoObj.url;
 
@@ -10,7 +10,7 @@ function fillBigPicture(PhotoObj) {
 }
 
 function onPicturesContainerClick(evt) {
-  const cardId = evt.target.closest('.picture').data.id;
+  const cardId = evt.target.closest('.picture').dataset.id;
 
   const photoData = data.find((element) => element.id === Number(cardId));
 
@@ -22,4 +22,6 @@ function onPicturesContainerClick(evt) {
   fillBigPicture(photoData);
 }
 
-picturesContainer.addEventListner('click', onPicturesContainerClick);
+export const picturesContainerClick = () => {
+  picturesContainer.addEventListener('click', onPicturesContainerClick);
+};
