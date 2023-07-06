@@ -1,43 +1,42 @@
 import './pictures.js';
 import {isEscapeKey} from './util.js';
 
+
 const bigPictureModal = document.querySelector('.big-picture');
-const picturesContainer = document.querySelectorAll('.picture');
-const bigPictureModalClose = bigPictureModal.querySelector('.big-picture__cancel');
+const picturesContainer = document.querySelector('.pictures');
+const bigPictureClose = bigPictureModal.querySelector('.big-picture__cancel');
 
-function closeBigPicture() {
-  bigPictureModalClose.classList.add('hidden');
-}
-
-function openBigPicture() {
-  bigPictureModal.classList.remove('hidden');
-  document.querySelector('body').classList.add('modal-open');
+function closeBigPicture () {
+  bigPictureModal.classList.add('hidden');
 }
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeBigPicture();
+    closeBigPicture ();
   }
 };
 
-const onBigPictureModalCloseClick = () => {
+function onBigPicture () {
+  bigPictureModal.classList.remove('hidden');
+  document.querySelector('body').classList.add('modal-open');
+}
+
+const onBigPictureCloseClick = () => {
   bigPictureModal.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
-  bigPictureModalClose.removeEventListener('click', onBigPictureModalCloseClick);
+  bigPictureClose.removeEventListener('click', onBigPictureCloseClick);
 };
 
 const onPicturesContainerClick = (evt) => {
-  if(evt.target.closest('picture')) {
-    openBigPicture();
+  if (evt.target.closest('.picture')){
+    onBigPicture ();
 
     document.addEventListener('keydown', onDocumentKeydown);
-    bigPictureModalClose.addEventListener('click', onBigPictureModalCloseClick);
+    bigPictureClose.addEventListener('click', onBigPictureCloseClick);
   }
 };
 
-export const picturesContainerClick = () => {
-  picturesContainer.addEventListener('click', onPicturesContainerClick);
-};
+picturesContainer.addEventListener('click', onPicturesContainerClick);
