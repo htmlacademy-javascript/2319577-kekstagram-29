@@ -5,7 +5,6 @@ const picturesContainer = document.querySelector('.pictures'); // находим
 function fillBigPicture(photoObj) {
   const bigPicture = document.querySelector('.big-picture');
   bigPicture.querySelector('.big-picture__img img').src = photoObj.url;
-  bigPicture.querySelector('.big-picture__img img').src = photoObj.url;
 }
 
 function onPicturesContainerClick(evt) {
