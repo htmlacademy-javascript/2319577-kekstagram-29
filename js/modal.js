@@ -14,7 +14,7 @@ const onDocumentKeydown = (evt) => {
 };
 
 // Функция открытия модального окна
-function onBigPicture () {
+function openBigPicture () {
   bigPictureModal.classList.remove('hidden'); // удаляем hidden, чтобы отобразить модальное окно
   document.querySelector('body').classList.add('modal-open'); // добавляем, чтобы контейнер с карточками позади не прокручивался при скролле
 
@@ -34,7 +34,7 @@ function closeBigPicture () {
 // Функция для устранения нажатия по доп. элементам карточки
 const onPicturesContainerClick = (evt) => {
   if (evt.target.closest('.picture')){ // поиск ближайшего родителя (closest)
-    onBigPicture (); // выполнение функции открытия модалки
+    openBigPicture (); // выполнение функции открытия модалки
   }
 };
 

@@ -4,7 +4,7 @@ import {getRandomInteger, getRandomArrayElement, createId} from './util.js';
 const PHOTOS_COUNT = 25;
 const LIKES_MIN_COUNT = 0;
 const LIKES_MAX_COUNT = 100;
-const COMMENTS_MAX_COUNT = 5;
+const COMMENTS_MAX_COUNT = 20;
 
 // Массив описаний карточек
 const DESCRIPTIONS = [

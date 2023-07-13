@@ -4,7 +4,7 @@ const picturesContainer = document.querySelector('.pictures');
 // Находим шаблон по id и выбираем содержимое шаблона по классу .picture
 const cardTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-//Функция наполнения данными шаблона с использованием ({деструктуризации})
+// Функция наполнения данными шаблона с использованием ({деструктуризации})
 const fillCardTemplate = ({id, url, description, comments, likes}) => {
   const element = cardTemplate.cloneNode(true); // клонируем шаблон для многократного использования
 
