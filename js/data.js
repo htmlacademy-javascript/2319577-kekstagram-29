@@ -1,12 +1,12 @@
 import {getRandomInteger, getRandomArrayElement, createId} from './util.js';
 
-// Количество значений
+// Исходные данные
 const PHOTOS_COUNT = 25;
 const LIKES_MIN_COUNT = 0;
 const LIKES_MAX_COUNT = 100;
-const COMMENTS_MAX_COUNT = 5;
+const COMMENTS_MAX_COUNT = 20;
 
-// Описание фото
+// Массив описаний карточек
 const DESCRIPTIONS = [
   'Вид сверху на пляж.',
   'Вывеска указывающая к пляжу.',
@@ -35,7 +35,7 @@ const DESCRIPTIONS = [
   'Машина, проезжающая около высунувших морды бегемотов',
 ];
 
-// Создание рандомного имени
+// Массив имен
 const NAMES = [
   'Иван',
   'Хуан',
@@ -49,6 +49,7 @@ const NAMES = [
   'Абра',
 ];
 
+// Массив фамилий
 const SURNAMES = [
   'Парарам',
   'Верон',
@@ -63,7 +64,7 @@ const SURNAMES = [
   'Кадабра',
 ];
 
-// 8 комментариев
+// Массив комментариев
 const COMMENT_TEXTS = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -75,20 +76,13 @@ const COMMENT_TEXTS = [
   'Как можно было поймать такой неудачный момент?!',
 ];
 
-// Функция склеивания комментариев
+// Функция склеивания комментариев от 1 до 3 в один
 const getCommentText = () => Array.from({length:
   getRandomInteger(1, 3)}, () =>
   getRandomArrayElement(COMMENT_TEXTS)).join(' ');
 
-/**
- * Функция по созданию массива объектов — список комментариев, вкл. в себя id, аватарку, сообщение и имя пользователя
- * @param {number} id - идентификатор комментария
- * @param {string} avatar - ссылка на автар, который формируется по правилу img/avatar-{{случайное число от 1 до 6}}.svg
- * @param {string} message - комментарий, который формируется случайным образом из массива MESSAGES[]
- * @param {string} name - имя пользователя данного комментария, которое формируется случайным образом из массивов NAMES[] + SURNAMES[]
- * @return {array} - массив объектов (комментариев)
- */
-const getComment = () => {
+// Функция по созданию массива объектов — список комментариев, вкл. в себя id, аватарку, сообщение и имя пользователя
+const getCommentObj = () => {
   const commentId = createId(1, 100);
   return {
     id: commentId(),
@@ -98,25 +92,20 @@ const getComment = () => {
   };
 };
 
-/**
- * Функция по созданию массива карточек фото, вкл. в себя id, ссылку на фото, описание фото, кол-во лайков, массив комментариев
- * @param {number} id - идентификатор фото
- * @param {string} url - ссылка на фото, которая формируется по правилу photos/{{id от 1 до 25}}.jpg
- * @param {string} description - описание фото
- * @param {number} likes - случайное количество лайков от 0 до 100
- * @param {array} comments - массив комментариев из getComment
- */
-const getPhotosDescriptions = (index) => ({
+// Функция по созданию массива карточек фото, вкл. в себя id, ссылку на фото, описание фото, кол-во лайков, массив комментариев
+const getPhotosObj = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
   description: DESCRIPTIONS[index - 1],
   // description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length)],
   likes: getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
-  comments: Array.from({length: getRandomInteger(1, COMMENTS_MAX_COUNT) }, getComment)
+  comments: Array.from({length: getRandomInteger(1, COMMENTS_MAX_COUNT) }, getCommentObj)
 });
 
-// Экспорт функции, содержащей массив, в котором хранятся все данные
-export const getPhotosData = () => {
-  const photoDescriptions = Array.from({length: PHOTOS_COUNT}, (_, index) => getPhotosDescriptions(index + 1));
+// Функция, содержащая массив, в котором хранятся все данные каждой карточки
+const getPhotosData = () => {
+  const photoDescriptions = Array.from({length: PHOTOS_COUNT}, (_, index) => getPhotosObj(index + 1));
   return photoDescriptions;
 };
+
+export const data = getPhotosData(PHOTOS_COUNT);
