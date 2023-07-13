@@ -1,23 +1,16 @@
 import {data} from './data.js';
 
-const picturesContainer = document.querySelector('.pictures');
+const picturesContainer = document.querySelector('.pictures'); // находим контейнер с изображениями всех карточек
 
 function fillBigPicture(photoObj) {
   const bigPicture = document.querySelector('.big-picture');
   bigPicture.querySelector('.big-picture__img img').src = photoObj.url;
-
-  // console.log('PhotoObj', PhotoObj);
+  bigPicture.querySelector('.big-picture__img img').src = photoObj.url;
 }
 
 function onPicturesContainerClick(evt) {
   const cardId = evt.target.closest('.picture').dataset.id;
-
   const photoData = data.find((element) => element.id === Number(cardId));
-
-  // console.log(photoData);
-
-  // console.log('data', data);
-  // console.log('id', evt.target.closest('.picture').data.id);
 
   fillBigPicture(photoData);
 }

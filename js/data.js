@@ -1,10 +1,12 @@
 import {getRandomInteger, getRandomArrayElement, createId} from './util.js';
 
+// Исходные данные
 const PHOTOS_COUNT = 25;
 const LIKES_MIN_COUNT = 0;
 const LIKES_MAX_COUNT = 100;
 const COMMENTS_MAX_COUNT = 5;
 
+// Массив описаний карточек
 const DESCRIPTIONS = [
   'Вид сверху на пляж.',
   'Вывеска указывающая к пляжу.',
@@ -33,6 +35,7 @@ const DESCRIPTIONS = [
   'Машина, проезжающая около высунувших морды бегемотов',
 ];
 
+// Массив имен
 const NAMES = [
   'Иван',
   'Хуан',
@@ -46,6 +49,7 @@ const NAMES = [
   'Абра',
 ];
 
+// Массив фамилий
 const SURNAMES = [
   'Парарам',
   'Верон',
@@ -60,6 +64,7 @@ const SURNAMES = [
   'Кадабра',
 ];
 
+// Массив комментариев
 const COMMENT_TEXTS = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -71,10 +76,12 @@ const COMMENT_TEXTS = [
   'Как можно было поймать такой неудачный момент?!',
 ];
 
+// Функция склеивания комментариев от 1 до 3 в один
 const getCommentText = () => Array.from({length:
   getRandomInteger(1, 3)}, () =>
   getRandomArrayElement(COMMENT_TEXTS)).join(' ');
 
+// Функция по созданию массива объектов — список комментариев, вкл. в себя id, аватарку, сообщение и имя пользователя
 const getCommentObj = () => {
   const commentId = createId(1, 100);
   return {
@@ -85,6 +92,7 @@ const getCommentObj = () => {
   };
 };
 
+// Функция по созданию массива карточек фото, вкл. в себя id, ссылку на фото, описание фото, кол-во лайков, массив комментариев
 const getPhotosObj = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
@@ -94,6 +102,7 @@ const getPhotosObj = (index) => ({
   comments: Array.from({length: getRandomInteger(1, COMMENTS_MAX_COUNT) }, getCommentObj)
 });
 
+// Функция, содержащая массив, в котором хранятся все данные каждой карточки
 const getPhotosData = () => {
   const photoDescriptions = Array.from({length: PHOTOS_COUNT}, (_, index) => getPhotosObj(index + 1));
   return photoDescriptions;
