@@ -1,8 +1,15 @@
 import {data} from './data.js';
 
-// const COMMENTS_PER_PORTION = 5; // кол-во коментариев на странице
+let countComments = 5; // кол-во коментариев на странице
 
+const bigPicture = document.querySelector('.big-picture'); // находим секцию (контейнер) модального окна
 const picturesContainer = document.querySelector('.pictures'); // находим контейнер с изображениями всех карточек
+const commentsList = bigPicture.querySelector('.social__comments'); // находим список коментов
+const commentItem = commentsList.querySelector('.social__comment'); // находим один комент
+const commentsCount = bigPicture.querySelector('.social__comment-count'); // текст ХХ ком-ев из ХХ
+const commentsTotalCount = bigPicture.querySelector('.comments-count'); // цифра кол-ва ком-ев всего
+const btnDownloadMore = bigPicture.querySelector('.comments-loader'); // находим кнопку "Загрузить еще"
+const bigFotoCloseElement = bigPicture.querySelector('.big-picture__cancel'); // находим кнопку закрытия
 
 // Функция-шаблон каждого коментария к карточке
 function createCommentTemplate ({avatar, name, message}) {
@@ -14,8 +21,6 @@ function createCommentTemplate ({avatar, name, message}) {
 
 // Функция наполнения данными карточек
 function fillBigPicture({url, description, likes, comments}) {
-  const bigPicture = document.querySelector('.big-picture'); // находим секцию (контейнер) модального окна
-
   bigPicture.querySelector('.big-picture__img img').src = url; // записывается ссылка на карточку
   bigPicture.querySelector('.social__caption').textContent = description; // записывается описание карточки
   bigPicture.querySelector('.likes-count').textContent = likes; // записывается количество лайков
