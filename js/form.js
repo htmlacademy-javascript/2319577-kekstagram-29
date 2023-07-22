@@ -73,6 +73,7 @@ function onFormFieldKeydown(evt) {
   }
 }
 
+// Функция закрытия модалки при нажатии Esc
 function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
