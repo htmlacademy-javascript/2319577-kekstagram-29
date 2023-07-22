@@ -87,6 +87,7 @@ const onUploadFormSubmit = (evt) => {
   pristine.validate();
 };
 
+// Очередность проверок введенных данных
 pristine.addValidator(textHashtags, hasUniqueTags, errorText.NOT_UNIQUE,1,true); // не уникальный хэштег
 pristine.addValidator(textHashtags, hasValidTags, errorText.INVALID_PATTERN,2,true); // невалидный сам хэштег
 pristine.addValidator(textHashtags, hasValidCount, errorText.INVALID_COUNT,3,true); // невалидное кол-во хэштегов
