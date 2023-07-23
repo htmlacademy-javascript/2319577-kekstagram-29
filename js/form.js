@@ -66,7 +66,7 @@ const hasUniqueTags = (value) => { // проверка уникальности 
   return lowerCaseTags.length === new Set(lowerCaseTags).size; // метод Set хранит в себе только уникальные элементы (выполняем сравнение)
 };
 
-
+// Функция отмены действия нажатия Esc для закрытия модалки, когда курсор в поле ввода форм
 function onFormFieldKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.stopPropagation();
