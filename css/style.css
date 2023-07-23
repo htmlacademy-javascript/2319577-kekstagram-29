@@ -1408,3 +1408,13 @@ main {
 .hidden {
   display: none;
 }
+
+.img-upload__field-wrapper--error {
+  background-color: rgba(253, 190, 15, 0.377);
+  color: #ff0000;
+  max-width: 450px;
+  margin: auto;
+  border-radius: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
