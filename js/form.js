@@ -1,4 +1,6 @@
 import {isEscapeKey} from './util.js';
+import {resetScale, initScale} from './scale.js';
+import { initSlider, hideSlider, resetEffect } from './effect.js';
 
 const bodyElement = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay'); // находим форму редактирования изо-й
@@ -25,7 +27,9 @@ const pristine = new Pristine(uploadForm, { // добавление функци
 
 // Функция закрытия модального окна добавления нового изо-я
 const closeModal = () => {
-  uploadForm.reset();
+  uploadForm.reset(); // восстанавливает стандартные значения
+  resetEffect(); //сброс эффектов слайдера
+  resetScale(); //сброс эффектов маштаба
   pristine.reset();
   uploadOverlay.classList.add('hidden');
   bodyElement.classList.remove('.modal-open');
@@ -39,11 +43,13 @@ const closeModal = () => {
 
 // Функция открытия модального окна добавления нового изо-я
 const openModal = () => {
-  uploadOverlay.classList.remove('hidden');
-  bodyElement.classList.add('.modal-open');
+  uploadOverlay.classList.remove('hidden'); // показать подложку
+  bodyElement.classList.add('.modal-open'); // отключаем скрол под подложкой
+  hideSlider(); //скрывается слайдер при первоночальном показе
 
   uploadCancel.addEventListener('click', closeModal);
 
+  // добавление обработчика событий
   document.addEventListener('keydown', onDocumentKeydown);
   textHashtags.addEventListener('keydown', onFormFieldKeydown);
   textDescription.addEventListener('keydown', onFormFieldKeydown);
@@ -92,6 +98,9 @@ pristine.addValidator(textHashtags, hasUniqueTags, errorText.NOT_UNIQUE,1,true);
 pristine.addValidator(textHashtags, hasValidTags, errorText.INVALID_PATTERN,2,true); // невалидный сам хэштег
 pristine.addValidator(textHashtags, hasValidCount, errorText.INVALID_COUNT,3,true); // невалидное кол-во хэштегов
 
-uploadForm.addEventListener('submit', onUploadFormSubmit);
-
-uploadInput.addEventListener('change', openModal);
+export const initUploadForm = () => {
+  uploadForm.addEventListener('submit', onUploadFormSubmit); //проверка на валидацию
+  uploadInput.addEventListener('change', openModal);
+  initSlider(); //бегунок слайдера
+  initScale(); // маштабирование
+};

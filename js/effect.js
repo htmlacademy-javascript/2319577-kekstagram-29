@@ -1,137 +1,74 @@
-const EFFECTS = [
-  {
-    name: 'none',
-    style: '',
-    min: 0,
-    max: 100,
-    step: 1,
-    unit: ''
-  },
-  {
-    name: 'chrome',
-    style: 'grayscale',
-    min: 0,
-    max: 1,
-    step: 0.1,
-    unit: ''
-  },
-  {
-    name: 'sepia',
-    style: 'sepia',
-    min: 0,
-    max: 1,
-    step: 0.1,
-    unit: ''
-  },
-  {
-    name: 'marvin',
-    style: 'invert',
-    min: 0,
-    max: 100,
-    step: 1,
-    unit: '%'
-  },
-  {
-    name: 'phobos',
-    style: 'blur',
-    min: 0,
-    max: 3,
-    step: 0.1,
-    unit: 'px'
-  },
-  {
-    name: 'heat',
-    style: 'brightness',
-    min: 1,
-    max: 3,
-    step: 0.1,
-    unit: ''
-  }
-];
+import {sliderEffects} from './data-effects.js';
 
-const DEFAULT_EFFECT = EFFECTS[0];
-let currentEffect = DEFAULT_EFFECT;
+const sliderEffectsList = document.querySelector('.effects__list'); // список эффектов
+const effectValueElement = document.querySelector('.effect-level__value'); // ползунок слайдера для каждой li
+const photoPreview = document.querySelector('.img-upload__preview img'); //загруженное фото для обрабоки
+const sliderContainer = document.querySelector('.img-upload__effect-level'); //
+const sliderElement = document.querySelector('.effect-level__slider');
 
-const rangesSliderContainer = document.querySelector('.effect-level');
-const rangesSlider = document.querySelector('.effect-level__slider');
-const rangesSliderInput = document.querySelector('.effect-level__value');
-const effectsList = document.querySelector('.effects');
 
-const smaller = document.querySelector('.scale__control--smaller');
-const bigger = document.querySelector('.scale__control--bigger');
-const valueScale = document.querySelector('.scale__control--value');
+// Функция скрывает слайдер
+const hideSlider = () => {
+  sliderContainer.classList.add('hidden');
+};
 
-const image = document.querySelector('.img-upload__preview img');
 
-smaller.addEventListener('click', () => {
-  const value = parseInt(valueScale.value, 10);
-  if (value > 25) {
-    valueScale.value = `${value - 25}%`;
-    image.style.cssText += `transform: scale(${parseInt(valueScale.value, 10) / 100})`;
-  }
-});
+//  Функция по изменению фильтров слайдера
+const changeSliderFilters = (effect, value, unit) => {
+  effectValueElement.value = value;
+  photoPreview.style.filter = `${effect}(${value}${unit})`;
+};
 
-bigger.addEventListener('click', () => {
-  const value = parseInt(valueScale.value, 10);
-  if (value < 100) {
-    valueScale.value = `${value + 25}%`;
-    image.style.cssText += `transform: scale(${parseInt(valueScale.value, 10) / 100})`;
-  }
-});
-
-function showRangeSlider () {
-  rangesSliderContainer.classList.remove('hidden');
-}
-
-function hideRangeSlider () {
-  rangesSliderContainer.classList.add('hidden');
-}
-hideRangeSlider ();
-
-function updateSlider () {
-  rangesSlider.noUiSlider.updateOptions({
+// отображение слайдера
+const showSlider = (effects) => {
+  sliderContainer.classList.remove('hidden'); //показывается слайдер
+  noUiSlider.create(sliderElement, {
     range: {
-      min: currentEffect.min,
-      max: currentEffect.max,
+      min: effects['min'], //min
+      max: effects['max'] //max значение позунка
     },
-    step: currentEffect.step,
-    start: currentEffect.max
+    start: effects['max'], //при открытии всегда в max позиции
+    step: effects['step'], //шаг ползунка
+    connect: 'lower', //при использовании одной ручкой
+    //tooltips: [true], //можно выводить подсказку
   });
-}
 
-function onEffectsListClick(evt) {
-  if (evt.target.classList.contains('effects__radio')) {
-    currentEffect = EFFECTS.find((effect) =>effect.name === evt.target.value);
-    image.className = `img-upload__preview effects__preview--${currentEffect.name}`;
+  sliderElement.noUiSlider.on('update', () => { //обновление значения ползунка
+    const sliderValue = sliderElement.noUiSlider.get();
+    changeSliderFilters(effects.name, sliderValue, effects.unit);
+  });
+  /*sliderEffectsList.addEventListener('click', () => { //обновление значения ползунка
+    const sliderValue = sliderElement.noUiSlider.set();
+    changeSliderFilters(effects.name, sliderValue, effects.unit);
+  });*/
+};
 
-    updateSlider ();
+// функция по сбросу эффектов
+const resetEffect = () => {
+  hideSlider(); //скрывается слайдер
+  photoPreview.style.filter = null; //сбрасываем параметры у фото
+  effectValueElement.value = null; //сбрасываем ползунок
 
-    if (currentEffect.name === 'none') {
-      hideRangeSlider();
-    } else {
-      showRangeSlider();
-    }
+  if (sliderElement.noUiSlider) {
+    sliderElement.noUiSlider.destroy();
   }
-}
+};
 
-function onRangeSliderUpdate () {
-  const rangesSliderValue = rangesSlider.noUiSlider.get();
-  rangesSliderInput.value = rangesSliderValue;
-  image.style.filter = `${currentEffect.style}(${rangesSliderValue}${currentEffect.unit})`;
+// функция по изменению эффектов при использовании бегунка
+function onClickChangeEffect (evt) {
+  resetEffect(); //сброс эффектов слайдера при переключении
+  const effects = sliderEffects[evt.target.value];
 
-  if (currentEffect.name === 'none') {
-    image.style.filter = DEFAULT_EFFECT.style;
+  if (effects.name === 'none') {
+    photoPreview.removeAttribute('style');
+    return;
   }
+  showSlider(effects);
 }
 
-noUiSlider.create(rangesSlider, {
-  range: {
-    min: DEFAULT_EFFECT.min,
-    max: DEFAULT_EFFECT.max,
-  },
-  step: DEFAULT_EFFECT.step,
-  start: DEFAULT_EFFECT.min
-});
+// инициализация слайдера
+const initSlider = () => {
+  sliderEffectsList.addEventListener('change', onClickChangeEffect);
+};
 
-effectsList.addEventListener ('click', onEffectsListClick);
-rangesSlider.noUiSlider.on('update', onRangeSliderUpdate);
+export {initSlider, hideSlider, resetEffect};
