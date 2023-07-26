@@ -1,4 +1,4 @@
-import { data } from './data.js';
+import {dataPhotos} from './load.js';
 import {isEscapeKey} from './util.js';
 
 const bigPicture = document.querySelector('.big-picture'); // находим секцию (контейнер) модального окна
@@ -47,7 +47,7 @@ const onPicturesContainerClick = ({target}) => {
     return;
   }
   const cardDataId = target.closest('.picture').dataset.id; // считываем id карточки (избегая клика по спанам)
-  const photoData = data.find((element) => element.id === Number(cardDataId)); // id из текста в цифру
+  const photoData = dataPhotos.find((element) => element.id === Number(cardDataId)); // id из текста в цифру
   fillBigPicture(photoData); // отрисовка модального окна карточки со всем контентом
   openBigPicture(); // выполнение функции открытия модалки
 };

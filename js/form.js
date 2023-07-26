@@ -1,10 +1,13 @@
 import {isEscapeKey} from './util.js';
 import {resetScale, initScale} from './scale.js';
-import { initSlider, hideSlider, resetEffect } from './effect-slider.js';
+import {initSlider, hideSlider, resetEffect} from './effect-slider.js';
+import {sendData} from './api.js';
+import {showBooklet} from './booklet.js';
 
 const bodyElement = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay'); // находим форму редактирования изо-й
 const uploadInput = document.querySelector('.img-upload__input'); // находим поле загрузки изо-я
+const uploadSubmit = document.querySelector('.img-upload__submit'); // находим кнопку "Опубликовать" для отправки данных на сервер
 const uploadCancel = document.querySelector('.img-upload__cancel'); // находим кнопку закрытия редактора изо-я
 const textHashtags = uploadOverlay.querySelector('.text__hashtags'); // находим поле ввода хэштегов
 const textDescription = uploadOverlay.querySelector('.text__description'); // находим поле ввода ком-ев
@@ -55,6 +58,14 @@ const openModal = () => {
   textDescription.addEventListener('keydown', onFormFieldKeydown);
 };
 
+const blockUploadSubmit = () => {
+  uploadSubmit.disabled = true;
+};
+
+const unblockUploadSubmit = () => {
+  uploadSubmit.disabled = false;
+};
+
 // Хэштеги должны удовлетворять условиям ТЗ
 const normalizeTags = (tagString) => tagString // нормализуем введеные хэштеги
   .trim() // обрезаются лишние пробелы
@@ -90,7 +101,15 @@ function onDocumentKeydown (evt) {
 // Функция подтверждения валидности формы
 const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  if (pristine.validate()) {
+    blockUploadSubmit();
+    const formData = new FormData(uploadForm);
+    sendData(formData)
+      .then(showBooklet('success'))
+      .catch(showBooklet('error'))
+      .finally(unblockUploadSubmit);
+    closeModal ();
+  }
 };
 
 // Очередность проверок введенных данных
@@ -98,9 +117,9 @@ pristine.addValidator(textHashtags, hasUniqueTags, errorText.NOT_UNIQUE,1,true);
 pristine.addValidator(textHashtags, hasValidTags, errorText.INVALID_PATTERN,2,true); // невалидный сам хэштег
 pristine.addValidator(textHashtags, hasValidCount, errorText.INVALID_COUNT,3,true); // невалидное кол-во хэштегов
 
-export const initUploadForm = () => {
-  uploadForm.addEventListener('submit', onUploadFormSubmit); //проверка на валидацию
-  uploadInput.addEventListener('change', openModal);
-  initSlider(); //бегунок слайдера
-  initScale(); // маштабирование
-};
+
+uploadForm.addEventListener('submit', onUploadFormSubmit); //проверка на валидацию
+uploadInput.addEventListener('change', openModal);
+initSlider(); //бегунок слайдера
+initScale(); // маштабирование
+

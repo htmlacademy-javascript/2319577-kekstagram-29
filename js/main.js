@@ -1,9 +1,11 @@
-import {data} from './data.js';
-import {renderPictures} from './pictures.js';
-import {initUploadForm} from './form.js';
+// import {data} from './data.js';
+import './pictures.js';
+import './form.js';
 import './modal.js';
+import './load.js';
+import './booklet.js';
 
 
-renderPictures(data); //отрисовывам миниатюры
+// renderPictures(data); //отрисовывам миниатюры
 
-initUploadForm(); //форма загрузки
+// initUploadForm(); //форма загрузки

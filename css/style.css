@@ -1418,3 +1418,16 @@ main {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
+.error-alert {
+  z-index: 100;
+  position: absolute;
+  color: black;
+  left: 0;
+  top: 0;
+  right: 0;
+  padding: 10px 3px;
+  font-size: 30px;
+  text-align: center;
+  background-color: #ff0000;
+}
