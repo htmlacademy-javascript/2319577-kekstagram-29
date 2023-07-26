@@ -1,6 +1,6 @@
 import {isEscapeKey} from './util.js';
 import {resetScale, initScale} from './scale.js';
-import { initSlider, hideSlider, resetEffect } from './effect.js';
+import { initSlider, hideSlider, resetEffect } from './effect-slider.js';
 
 const bodyElement = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay'); // находим форму редактирования изо-й

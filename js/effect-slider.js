@@ -2,8 +2,8 @@ import {sliderEffects} from './data-effects.js';
 
 const sliderEffectsList = document.querySelector('.effects__list'); // список эффектов
 const effectValueElement = document.querySelector('.effect-level__value'); // ползунок слайдера для каждой li
-const photoPreview = document.querySelector('.img-upload__preview img'); //загруженное фото для обрабоки
-const sliderContainer = document.querySelector('.img-upload__effect-level'); //
+const photoPreview = document.querySelector('.img-upload__preview img'); // загруженное фото для обрабоки
+const sliderContainer = document.querySelector('.img-upload__effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
 
 
@@ -19,35 +19,31 @@ const changeSliderFilters = (effect, value, unit) => {
   photoPreview.style.filter = `${effect}(${value}${unit})`;
 };
 
-// отображение слайдера
+// Функция отображения слайдера
 const showSlider = (effects) => {
-  sliderContainer.classList.remove('hidden'); //показывается слайдер
+  sliderContainer.classList.remove('hidden'); // показывается слайдер
   noUiSlider.create(sliderElement, {
     range: {
-      min: effects['min'], //min
-      max: effects['max'] //max значение позунка
+      min: effects['min'], // min значение позунка
+      max: effects['max'] // max значение позунка
     },
-    start: effects['max'], //при открытии всегда в max позиции
-    step: effects['step'], //шаг ползунка
-    connect: 'lower', //при использовании одной ручкой
-    //tooltips: [true], //можно выводить подсказку
+    start: effects['max'], // при открытии всегда в max позиции
+    step: effects['step'], // шаг ползунка
+    connect: 'lower', // при использовании одной ручкой
+    //tooltips: [true], // можно выводить подсказку
   });
 
-  sliderElement.noUiSlider.on('update', () => { //обновление значения ползунка
+  sliderElement.noUiSlider.on('update', () => { // обновление значения ползунка
     const sliderValue = sliderElement.noUiSlider.get();
     changeSliderFilters(effects.name, sliderValue, effects.unit);
   });
-  /*sliderEffectsList.addEventListener('click', () => { //обновление значения ползунка
-    const sliderValue = sliderElement.noUiSlider.set();
-    changeSliderFilters(effects.name, sliderValue, effects.unit);
-  });*/
 };
 
 // функция по сбросу эффектов
 const resetEffect = () => {
-  hideSlider(); //скрывается слайдер
-  photoPreview.style.filter = null; //сбрасываем параметры у фото
-  effectValueElement.value = null; //сбрасываем ползунок
+  hideSlider(); // скрываем слайдер
+  photoPreview.style.filter = null; // сбрасываем параметры у фото
+  effectValueElement.value = null; // сбрасываем ползунок
 
   if (sliderElement.noUiSlider) {
     sliderElement.noUiSlider.destroy();
@@ -56,7 +52,7 @@ const resetEffect = () => {
 
 // функция по изменению эффектов при использовании бегунка
 function onClickChangeEffect (evt) {
-  resetEffect(); //сброс эффектов слайдера при переключении
+  resetEffect(); // сброс эффектов слайдера при переключении
   const effects = sliderEffects[evt.target.value];
 
   if (effects.name === 'none') {
@@ -66,7 +62,7 @@ function onClickChangeEffect (evt) {
   showSlider(effects);
 }
 
-// инициализация слайдера
+// Функция инициализации слайдера
 const initSlider = () => {
   sliderEffectsList.addEventListener('change', onClickChangeEffect);
 };
