@@ -31,13 +31,12 @@ function showBooklet(cls) {
     closePopup();
   };
 
-
   document.addEventListener('keydown', onDocumentKeydown);
   closeButton.addEventListener('click', oncloseButtonClick);
 
-
   function closePopup () {
     bodyElement.querySelector(`.${cls}`).classList.add('hidden');
+
     document.removeEventListener('keydown', onDocumentKeydown);
     closeButton.removeEventListener('click', oncloseButtonClick);
   }
