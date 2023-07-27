@@ -5,10 +5,10 @@ import {showAlertError} from './alert.js';
 let dataPhotos = null;
 
 try {
-  dataPhotos = await getData();
-  renderPictures(dataPhotos);
-} catch{
-  showAlertError('Данные не загружены. Попробуйте обновить страницу');
+  dataPhotos = await getData(); // получаем данные
+  renderPictures(dataPhotos); // отрисовываем полученные данные
+} catch {
+  showAlertError('Данные не загружены. Попробуйте обновить страницу'); // вывод ошибки
 }
 
 export {dataPhotos};

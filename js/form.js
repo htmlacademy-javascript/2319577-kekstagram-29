@@ -16,6 +16,11 @@ const uploadForm = document.querySelector('.img-upload__form'); // находи�
 const MAX_HASHTAG_COUNT = 5; // максимальное кол-во хэштегов
 const ALLOWED_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i; // допустимые символы ввода
 
+const submitText = { // текст на кнопке "Опубликовать"
+  UNBLOCK: 'Опубликовать',
+  BLOCK: 'Публикую...'
+};
+
 const errorText = { // комментарии ошибок ввода
   INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хэштегов`,
   NOT_UNIQUE: 'Хэштеги должны быть уникальными',
@@ -31,14 +36,15 @@ const pristine = new Pristine(uploadForm, { // добавление функци
 // Функция закрытия модального окна добавления нового изо-я
 const closeModal = () => {
   uploadForm.reset(); // восстанавливает стандартные значения
-  resetEffect(); //сброс эффектов слайдера
-  resetScale(); //сброс эффектов маштаба
+  resetEffect(); // сброс эффектов слайдера
+  resetScale(); // сброс эффектов маштаба
   pristine.reset();
   uploadOverlay.classList.add('hidden');
   bodyElement.classList.remove('.modal-open');
 
   uploadInput.value = '';
 
+  // удаляем обработчик событий
   document.removeEventListener('keydown', onDocumentKeydown);
   textHashtags.removeEventListener('keydown', onFormFieldKeydown);
   textDescription.removeEventListener('keydown', onFormFieldKeydown);
@@ -58,13 +64,17 @@ const openModal = () => {
   textDescription.addEventListener('keydown', onFormFieldKeydown);
 };
 
-const blockUploadSubmit = () => {
-  uploadSubmit.disabled = true;
-};
-
-const unblockUploadSubmit = () => {
+// Функция разблокировки кнопки "Опубликовать", после получения ответа от сервера
+function unblockUploadSubmit () {
   uploadSubmit.disabled = false;
-};
+  uploadSubmit.textContent = submitText.UNBLOCK;
+}
+
+// Функция блокировки кнопки "Опубликовать" для избежания отправки формы несколько раз
+function blockUploadSubmit () {
+  uploadSubmit.disabled = true;
+  uploadSubmit.textContent = submitText.BLOCK;
+}
 
 // Хэштеги должны удовлетворять условиям ТЗ
 const normalizeTags = (tagString) => tagString // нормализуем введеные хэштеги
@@ -98,18 +108,26 @@ function onDocumentKeydown (evt) {
   }
 }
 
+const uploadFormData = async () => {
+  try {
+    const formData = new FormData(uploadForm);
+    blockUploadSubmit();
+    await sendData(formData);
+    unblockUploadSubmit();
+    showBooklet('success');
+    closeModal ();
+  } catch {
+    showBooklet('error');
+  }
+};
+
 // Функция подтверждения валидности формы
 const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
-  if (pristine.validate()) {
-    blockUploadSubmit();
-    const formData = new FormData(uploadForm);
-    sendData(formData)
-      .then(showBooklet('success'))
-      .catch(showBooklet('error'))
-      .finally(unblockUploadSubmit);
-    closeModal ();
+  if (!pristine.validate()) {
+    return;
   }
+  uploadFormData ();
 };
 
 // Очередность проверок введенных данных

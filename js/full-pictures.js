@@ -12,7 +12,7 @@ const commentsCounter = bigPicture.querySelector('.social__comment-count'); // �
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) { // логика: если нажимается кнопка Esc - делаешь то-то..
     evt.preventDefault(); // сброс действия по умолчанию
-    closeBigPicture (); // закрытие модалки
+    closeBigPicture(); // закрытие модалки
   }
 };
 
@@ -22,7 +22,7 @@ const onBigPictureCloseClick = () => {
 };
 
 // Функция открытия модального окна
-function openBigPicture () {
+function bigPictureOpen () {
   bigPictureModal.classList.remove('hidden'); // удаляем hidden, чтобы отобразить модальное окно
   document.querySelector('body').classList.add('modal-open'); // добавляем, чтобы контейнер с карточками позади не прокручивался при скролле
 
@@ -49,7 +49,7 @@ const onPicturesContainerClick = ({target}) => {
   const cardDataId = target.closest('.picture').dataset.id; // считываем id карточки (избегая клика по спанам)
   const photoData = dataPhotos.find((element) => element.id === Number(cardDataId)); // id из текста в цифру
   fillBigPicture(photoData); // отрисовка модального окна карточки со всем контентом
-  openBigPicture(); // выполнение функции открытия модалки
+  bigPictureOpen(); // выполнение функции открытия модалки
 };
 
 // Функция-шаблон каждого коментария к карточке
