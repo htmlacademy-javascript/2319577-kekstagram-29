@@ -77,7 +77,7 @@ function showUploadPhoto () {
 
   if (matchs) {
     photoPreview.src = URL.createObjectURL(file); // метод URL.createObjectURL() делает ссылку на содержимое для отображения
-    effectPreviews.forEach((preview) => {
+    effectPreviews.forEach((preview) => { // превью эффекта фильтра из загруженной фото
       preview.style.backgroundImage = `url(${photoPreview.src})`;
     });
   }
