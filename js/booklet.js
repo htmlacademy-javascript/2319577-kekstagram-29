@@ -21,6 +21,7 @@ function showBooklet(cls) {
   const bookletInner = bodyElement.querySelector(`.${cls}__inner`);
   const bookletCloseButton = booklet.querySelector(`.${cls}__button`);
   booklet.classList.remove('hidden');
+
   const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
@@ -45,6 +46,7 @@ function showBooklet(cls) {
 
   function closePopup () {
     bodyElement.querySelector(`.${cls}`).classList.add('hidden');
+
     document.removeEventListener('keydown', onDocumentKeydown);
     bookletCloseButton.removeEventListener('click', oncloseButtonClick);
     booklet.removeEventListener('click',onScreenAreaClick);
