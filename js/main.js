@@ -1,4 +1,5 @@
-import './load.js';
+// import './load.js';
 import './form.js';
 import './full-pictures.js';
 import './booklet.js';
+import './photo-filter.js';

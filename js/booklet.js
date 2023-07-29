@@ -4,6 +4,7 @@ const bodyElement = document.querySelector('body');
 const errorBooklet = document.querySelector('#error').content.querySelector('.error'); // cообщение с ошибкой загрузки изображения
 const successBooklet = document.querySelector('#success').content.querySelector('.success'); // cообщение об успешной загрузке изображения
 
+// Функция отрисовки всплывающего сообщения
 function renderBooklet() {
   const popupContainer = document.querySelector('main');
 
@@ -16,11 +17,14 @@ function renderBooklet() {
 
 renderBooklet();
 
+// Функция отображения Всплывающего сообщения
 function showBooklet(cls) {
   const booklet = bodyElement.querySelector(`.${cls}`);
   const bookletInner = bodyElement.querySelector(`.${cls}__inner`);
   const bookletCloseButton = booklet.querySelector(`.${cls}__button`);
   booklet.classList.remove('hidden');
+
+  // // Функция скрытия всплывающего сообщения при нажатии кнопки Esc
   const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
@@ -28,6 +32,7 @@ function showBooklet(cls) {
     }
   };
 
+  // Функция скрытия всплывающего сообщения при клике по любой области на странице
   const onScreenAreaClick = (area) => {
     const click = area.composedPath().includes(bookletInner);
     if (!click) {
@@ -35,19 +40,23 @@ function showBooklet(cls) {
     }
   };
 
+  // Функция скрытия всплывающего сообщения при клике на кнопку
   const oncloseButtonClick = () => {
     closePopup();
   };
 
+  // Добавляем обработчики событий на клик по кнопке и любой области, и по нажатию Esc
   document.addEventListener('keydown', onDocumentKeydown);
-  bookletCloseButton.addEventListener('click', oncloseButtonClick);
   booklet.addEventListener('click', onScreenAreaClick);
+  bookletCloseButton.addEventListener('click', oncloseButtonClick);
 
+  // Функция закрытия всплывающего сообщения
   function closePopup () {
     bodyElement.querySelector(`.${cls}`).classList.add('hidden');
+
     document.removeEventListener('keydown', onDocumentKeydown);
-    bookletCloseButton.removeEventListener('click', oncloseButtonClick);
     booklet.removeEventListener('click',onScreenAreaClick);
+    bookletCloseButton.removeEventListener('click', oncloseButtonClick);
   }
 }
 

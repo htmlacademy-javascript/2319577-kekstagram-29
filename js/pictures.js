@@ -1,5 +1,6 @@
-// Находим контейнер с изображениями всех карточек
-const picturesContainer = document.querySelector('.pictures');
+import {debounce} from './util.js';
+
+const picturesContainer = document.querySelector('.pictures'); // находим контейнер с изображениями всех карточек
 
 // Находим шаблон по id и выбираем содержимое шаблона по классу .picture
 const cardTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -17,17 +18,28 @@ const fillCardTemplate = ({id, url, description, comments, likes}) => {
   return element; // возвращается заполненная карточка
 };
 
+// Функция обновления карточек
+const resetPhotos = () => {
+  const pictures = picturesContainer.querySelectorAll('.picture'); // находим все карточки
+  pictures.forEach((picture) => {
+    picture.remove();
+  });
+};
+
+// Добавление "черного ящика"-контейнера для объектов
+const fragment = document.createDocumentFragment();
+
 // Функция отрисовки карточек
 const renderPictures = (data) => {
-  const fragment = document.createDocumentFragment(); // добавление "черного ящика"-контейнера для объектов
-
+  resetPhotos(); // обновление карточек на странице
   // Функция перебора всех карточек массива и заполнения данными
   data.forEach((cardObj) => {
-    const element = fillCardTemplate(cardObj);
-    fragment.appendChild(element); // каждую карточку складируем в контейнер
+    fragment.appendChild(fillCardTemplate(cardObj)); // каждую карточку складируем в контейнер
     // window.console.log(picture); // вывод в консоль данных каждой карточки
   });
   picturesContainer.appendChild(fragment);
 };
 
-export {renderPictures};
+const renderPicturesWithDebounce = debounce(renderPictures);
+
+export {renderPictures, renderPicturesWithDebounce};

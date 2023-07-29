@@ -9,7 +9,7 @@ const showAlertError = (message) => {
 
   document.body.append(alertContainer);
 
-  // отобржение ошибки заданное кол-во времени
+  // функция удаления ошибки чз заданное кол-во времени
   setTimeout(() => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
