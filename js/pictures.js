@@ -1,7 +1,6 @@
 import {debounce} from './util.js';
 
 const picturesContainer = document.querySelector('.pictures'); // находим контейнер с изображениями всех карточек
-const pictures = picturesContainer.querySelectorAll('.picture'); // находим все карточки
 
 // Находим шаблон по id и выбираем содержимое шаблона по классу .picture
 const cardTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -21,6 +20,7 @@ const fillCardTemplate = ({id, url, description, comments, likes}) => {
 
 // Функция обновления карточек
 const resetPhotos = () => {
+  const pictures = picturesContainer.querySelectorAll('.picture'); // находим все карточки
   pictures.forEach((picture) => {
     picture.remove();
   });
@@ -31,7 +31,7 @@ const fragment = document.createDocumentFragment();
 
 // Функция отрисовки карточек
 const renderPictures = (data) => {
-  resetPhotos();
+  resetPhotos(); // обновление карточек на странице
   // Функция перебора всех карточек массива и заполнения данными
   data.forEach((cardObj) => {
     fragment.appendChild(fillCardTemplate(cardObj)); // каждую карточку складируем в контейнер
