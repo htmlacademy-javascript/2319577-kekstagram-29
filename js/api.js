@@ -19,10 +19,10 @@ const ErrorMessage = { // текст ошибки
 const dataLoad = (route, errorText, method = Method.GET, body = null) =>
   fetch(`${OFF_SITE_SERVER}${route}`, {method, body}) // передается путь, аргумент настроек
     .then((response) => { // объект ответа
-      if (!response.ok) { // сервер ответил кодом, кот не является положительным
+      if (!response.ok) { // сервер ответил кодом, который не является положительным
         throw new Error(`Произошла ошибка ${response.status}: ${response.statusText}`);
       }
-      return response.json(); // данные кот вернул сервер
+      return response.json(); // данные которые вернул сервер
     })
     .catch(() => { // если промис не разрешился, произошла ошибка
       throw new Error(errorText);
