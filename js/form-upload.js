@@ -58,8 +58,8 @@ const closeModal = () => {
 const openModal = () => {
   uploadOverlay.classList.remove('hidden'); // показать подложку
   bodyElement.classList.add('.modal-open'); // отключаем скрол под подложкой
-  showUploadPhoto();
-  hideSlider(); //скрывается слайдер при первоночальном показе
+  showUploadPhoto(); // отображение загружаемой фото
+  hideSlider(); // скрывается слайдер при первоночальном показе
 
   uploadCancel.addEventListener('click', closeModal);
 
