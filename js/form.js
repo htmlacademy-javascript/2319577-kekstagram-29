@@ -39,6 +39,7 @@ const closeModal = () => {
   resetEffect(); // сброс эффектов слайдера
   resetScale(); // сброс эффектов маштаба
   pristine.reset();
+
   uploadOverlay.classList.add('hidden');
   bodyElement.classList.remove('.modal-open');
 
@@ -118,6 +119,7 @@ const uploadFormData = async () => {
     closeModal ();
   } catch {
     showBooklet('error');
+    unblockUploadSubmit();
   }
 };
 
