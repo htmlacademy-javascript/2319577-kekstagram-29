@@ -65,4 +65,4 @@ const initSlider = () => {
   sliderEffectsList.addEventListener('change', onClickChangeEffect);
 };
 
-export {initSlider, hideSlider, resetEffect};
+export {initSlider, hideSlider, resetEffect}; // экспорт в form-upload.js

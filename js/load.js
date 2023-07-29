@@ -11,4 +11,4 @@ try {
   showAlertError('Данные не загружены. Попробуйте обновить страницу'); // вывод ошибки
 }
 
-export {dataPhotos};
+export {dataPhotos}; // экспорт в photo-filter.js и в full-pictures.js

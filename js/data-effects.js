@@ -40,4 +40,4 @@ const sliderEffects = {
   }
 };
 
-export {sliderEffects};
+export {sliderEffects}; // экспорт в effect-slider.js

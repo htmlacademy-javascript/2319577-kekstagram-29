@@ -42,4 +42,4 @@ const renderPictures = (data) => {
 
 const renderPicturesWithDebounce = debounce(renderPictures);
 
-export {renderPictures, renderPicturesWithDebounce};
+export {renderPictures, renderPicturesWithDebounce}; // экспорт в load.js и в photo-filter.js
