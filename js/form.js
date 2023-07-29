@@ -4,8 +4,9 @@ import {initSlider, hideSlider, resetEffect} from './effect-slider.js';
 import {sendData} from './api.js';
 import {showBooklet} from './booklet.js';
 
-// Загрузка фото только перечисленных форматов
-const FILE_TYPES = ['jpg', 'jpeg', 'png', 'webp', 'svg', 'gif', 'avif'];
+const FILE_TYPES = ['jpg', 'jpeg', 'png', 'webp', 'svg', 'gif', 'avif']; // Расширения поддерживаемых картинок
+const MAX_HASHTAG_COUNT = 5; // максимальное кол-во хэштегов
+const ALLOWED_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i; // допустимые символы ввода
 
 const bodyElement = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay'); // находим форму редактирования изо-й
@@ -16,10 +17,6 @@ const textHashtags = uploadOverlay.querySelector('.text__hashtags'); // нахо
 const textDescription = uploadOverlay.querySelector('.text__description'); // находим поле ввода ком-ев
 const uploadForm = document.querySelector('.img-upload__form'); // находим форму для загрузки нов. изо-я
 const photoPreview = document.querySelector('.img-upload__preview img'); // загруженное фото для обрабоки
-const effectPreview = document.querySelectorAll('.effects__preview'); //наложение эффекта на изображение
-
-const MAX_HASHTAG_COUNT = 5; // максимальное кол-во хэштегов
-const ALLOWED_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i; // допустимые символы ввода
 
 const submitText = { // текст на кнопке "Опубликовать"
   UNBLOCK: 'Опубликовать',
@@ -81,9 +78,6 @@ function showUploadPhoto () {
 
   if (matchs) {
     photoPreview.src = URL.createObjectURL(file); // метод URL.createObjectURL() делает ссылку на содержимое для отображения
-    effectPreview.forEach((preview) => {
-      preview.style.backgroundImage = `url(${photoPreview.src})`;
-    });
   }
 }
 
