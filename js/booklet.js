@@ -18,11 +18,19 @@ renderBooklet();
 
 function showBooklet(cls) {
   const booklet = bodyElement.querySelector(`.${cls}`);
-  const closeButton = booklet.querySelector(`.${cls}__button`);
+  const bookletInner = bodyElement.querySelector(`.${cls}__inner`);
+  const bookletCloseButton = booklet.querySelector(`.${cls}__button`);
   booklet.classList.remove('hidden');
   const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
+      closePopup();
+    }
+  };
+
+  const onScreenAreaClick = (area) => {
+    const click = area.composedPath().includes(bookletInner);
+    if (!click) {
       closePopup();
     }
   };
@@ -32,13 +40,14 @@ function showBooklet(cls) {
   };
 
   document.addEventListener('keydown', onDocumentKeydown);
-  closeButton.addEventListener('click', oncloseButtonClick);
+  bookletCloseButton.addEventListener('click', oncloseButtonClick);
+  booklet.addEventListener('click', onScreenAreaClick);
 
   function closePopup () {
     bodyElement.querySelector(`.${cls}`).classList.add('hidden');
-
     document.removeEventListener('keydown', onDocumentKeydown);
-    closeButton.removeEventListener('click', oncloseButtonClick);
+    bookletCloseButton.removeEventListener('click', oncloseButtonClick);
+    booklet.removeEventListener('click',onScreenAreaClick);
   }
 }
 
