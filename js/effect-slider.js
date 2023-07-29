@@ -1,17 +1,15 @@
 import {sliderEffects} from './data-effects.js';
 
 const sliderEffectsList = document.querySelector('.effects__list'); // список эффектов
+const sliderContainer = document.querySelector('.img-upload__effect-level'); // находим контейнер слайдера
 const effectValueElement = document.querySelector('.effect-level__value'); // ползунок слайдера для каждой li
+const sliderElement = document.querySelector('.effect-level__slider'); // ползунок слайдера
 const photoPreview = document.querySelector('.img-upload__preview img'); // загруженное фото для обрабоки
-const sliderContainer = document.querySelector('.img-upload__effect-level');
-const sliderElement = document.querySelector('.effect-level__slider');
-
 
 // Функция скрывает слайдер
 const hideSlider = () => {
   sliderContainer.classList.add('hidden');
 };
-
 
 //  Функция по изменению фильтров слайдера
 const changeSliderFilters = (effect, value, unit) => {
@@ -39,7 +37,7 @@ const showSlider = (effects) => {
   });
 };
 
-// функция по сбросу эффектов
+// Функция по сбросу эффектов
 const resetEffect = () => {
   hideSlider(); // скрываем слайдер
   photoPreview.style.filter = null; // сбрасываем параметры у фото
@@ -50,7 +48,7 @@ const resetEffect = () => {
   }
 };
 
-// функция по изменению эффектов при использовании бегунка
+// Функция по изменению эффектов при использовании бегунка
 function onClickChangeEffect (evt) {
   resetEffect(); // сброс эффектов слайдера при переключении
   const effects = sliderEffects[evt.target.value];
