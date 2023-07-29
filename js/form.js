@@ -55,10 +55,9 @@ const closeModal = () => {
 
 // Функция открытия модального окна добавления нового изо-я
 const openModal = () => {
-  showUploadPhoto();
-
   uploadOverlay.classList.remove('hidden'); // показать подложку
   bodyElement.classList.add('.modal-open'); // отключаем скрол под подложкой
+  showUploadPhoto();
   hideSlider(); //скрывается слайдер при первоночальном показе
 
   uploadCancel.addEventListener('click', closeModal);
@@ -73,7 +72,6 @@ const openModal = () => {
 function showUploadPhoto () {
   const file = uploadInput.files[0]; // получение единственного файла
   const fileName = file.name.toLowerCase(); // приводим название загружаемого файла к одному регистру
-
   const matchs = FILE_TYPES.some((extention) => fileName.endsWith(extention)); // проверка расширения файла .some() пройдемся по массиву с помошью .endsWith()
 
   if (matchs) {
