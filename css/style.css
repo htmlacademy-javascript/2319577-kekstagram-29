@@ -1410,11 +1410,24 @@ main {
 }
 
 .img-upload__field-wrapper--error {
-  background-color: rgba(253, 190, 15, 0.377);
+  background-color: rgb(255, 203, 59);
   color: #ff0000;
   max-width: 450px;
   margin: auto;
   border-radius: 3px;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+.error-alert {
+  z-index: 100;
+  background-color: #ff0000;
+  color: black;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  padding: 10px 3px;
+  font-size: 30px;
+  text-align: center;
 }

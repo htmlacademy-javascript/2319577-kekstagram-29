@@ -18,7 +18,7 @@ const fillCardTemplate = ({id, url, description, comments, likes}) => {
 };
 
 // Функция отрисовки карточек
-export const renderPictures = (data) => {
+const renderPictures = (data) => {
   const fragment = document.createDocumentFragment(); // добавление "черного ящика"-контейнера для объектов
 
   // Функция перебора всех карточек массива и заполнения данными
@@ -29,3 +29,5 @@ export const renderPictures = (data) => {
   });
   picturesContainer.appendChild(fragment);
 };
+
+export {renderPictures};

@@ -1,7 +1,7 @@
-const SCALE_STEP = 25;
-const MIN_SCALE = 25;
-const MAX_SCALE = 100;
-const DEFAULT_SCALE = 100;
+const SCALE_STEP = 25; // шаг изменения %
+const MIN_SCALE = 25; // минимальный размер картинки
+const MAX_SCALE = 100; // максимальный размер картинки
+const DEFAULT_SCALE = 100; // стандартное значение размера картинки
 
 const smallerBtnElement = document.querySelector('.scale__control--smaller');
 const biggerBtnElement = document.querySelector('.scale__control--bigger');
@@ -28,9 +28,11 @@ const onBiggerBtnClick = () => {
   );
 };
 
-export const resetScale = () => scalePhoto(DEFAULT_SCALE);
+const resetScale = () => scalePhoto(DEFAULT_SCALE); // сброс к стандартному масштабу
 
-export const initScale = () => {
+const initScale = () => { // добавляем обработчики событий для кнопок + и -
   smallerBtnElement.addEventListener('click', onSmallerBtnClick);
   biggerBtnElement.addEventListener('click', onBiggerBtnClick);
 };
+
+export {resetScale, initScale};

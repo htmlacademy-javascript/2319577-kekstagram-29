@@ -1,5 +1,5 @@
 // Данные для фильтров фотографии
-export const sliderEffects = {
+const sliderEffects = {
   'none': {
     name: 'none',
   },
@@ -39,3 +39,5 @@ export const sliderEffects = {
     unit: '',
   }
 };
+
+export {sliderEffects};
