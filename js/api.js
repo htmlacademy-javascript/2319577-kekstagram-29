@@ -34,4 +34,4 @@ const getData = () => dataLoad(Route.GET_DATA, ErrorMessage.GET_MESSAGE);
 // Функция отправки данных на сервер, форму отправляем чз POST (body полезые данные-отправка формы)
 const sendData = (body) => dataLoad(Route.SEND_DATA, ErrorMessage.SEND_MESSAGE, Method.POST, body);
 
-export {getData, sendData};
+export {getData, sendData}; // экспорт в load.js

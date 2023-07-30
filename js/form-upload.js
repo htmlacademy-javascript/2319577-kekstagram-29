@@ -1,8 +1,12 @@
+import {sendData} from './api.js';
 import {isEscapeKey} from './util.js';
+import {showBooklet} from './booklet.js';
 import {resetScale, initScale} from './scale.js';
 import {initSlider, hideSlider, resetEffect} from './effect-slider.js';
-import {sendData} from './api.js';
-import {showBooklet} from './booklet.js';
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png', 'bmp', 'tif', 'webp', 'svg', 'gif', 'avif']; // Расширения поддерживаемых картинок
+const MAX_HASHTAG_COUNT = 5; // максимальное кол-во хэштегов
+const ALLOWED_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i; // допустимые символы ввода
 
 const bodyElement = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay'); // находим форму редактирования изо-й
@@ -12,9 +16,8 @@ const uploadCancel = document.querySelector('.img-upload__cancel'); // нахо�
 const textHashtags = uploadOverlay.querySelector('.text__hashtags'); // находим поле ввода хэштегов
 const textDescription = uploadOverlay.querySelector('.text__description'); // находим поле ввода ком-ев
 const uploadForm = document.querySelector('.img-upload__form'); // находим форму для загрузки нов. изо-я
-
-const MAX_HASHTAG_COUNT = 5; // максимальное кол-во хэштегов
-const ALLOWED_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i; // допустимые символы ввода
+const photoPreview = document.querySelector('.img-upload__preview img'); // загруженное фото для обрабоки
+const effectPreviews = document.querySelectorAll('.effects__preview'); //наложение эффекта на изображение
 
 const submitText = { // текст на кнопке "Опубликовать"
   UNBLOCK: 'Опубликовать',
@@ -55,7 +58,8 @@ const closeModal = () => {
 const openModal = () => {
   uploadOverlay.classList.remove('hidden'); // показать подложку
   bodyElement.classList.add('.modal-open'); // отключаем скрол под подложкой
-  hideSlider(); //скрывается слайдер при первоночальном показе
+  showUploadPhoto(); // отображение загружаемой фото
+  hideSlider(); // скрывается слайдер при первоночальном показе
 
   uploadCancel.addEventListener('click', closeModal);
 
@@ -64,6 +68,20 @@ const openModal = () => {
   textHashtags.addEventListener('keydown', onFormFieldKeydown);
   textDescription.addEventListener('keydown', onFormFieldKeydown);
 };
+
+// Функция отображения загружаемой карточки (фото)
+function showUploadPhoto () {
+  const file = uploadInput.files[0]; // получение единственного файла
+  const fileName = file.name.toLowerCase(); // приводим название загружаемого файла к одному регистру
+  const matchs = FILE_TYPES.some((extention) => fileName.endsWith(extention)); // проверка расширения файла .some() пройдемся по массиву с помошью .endsWith()
+
+  if (matchs) {
+    photoPreview.src = URL.createObjectURL(file); // метод URL.createObjectURL() делает ссылку на содержимое для отображения
+    effectPreviews.forEach((preview) => { // превью эффекта фильтра из загруженной фото
+      preview.style.backgroundImage = `url(${photoPreview.src})`;
+    });
+  }
+}
 
 // Функция разблокировки кнопки "Опубликовать", после получения ответа от сервера
 function unblockUploadSubmit () {
@@ -109,17 +127,18 @@ function onDocumentKeydown (evt) {
   }
 }
 
+// Функция отображения Всплывающих сообщений
 const uploadFormData = async () => {
   try {
     const formData = new FormData(uploadForm);
-    blockUploadSubmit();
+    blockUploadSubmit(); // блокировать кнопку "Опубликовать"
     await sendData(formData);
-    unblockUploadSubmit();
-    showBooklet('success');
+    unblockUploadSubmit(); // разблокировать кнопку "Опубликовать"
+    showBooklet('success'); // показать сообщение об успешной загрузке фото
     closeModal ();
   } catch {
-    showBooklet('error');
-    unblockUploadSubmit();
+    showBooklet('error'); // показать сообщение об ошибке загрузки фото
+    unblockUploadSubmit(); // разблокировать кнопку "Опубликовать"
   }
 };
 
@@ -138,8 +157,8 @@ pristine.addValidator(textHashtags, hasValidTags, errorText.INVALID_PATTERN,2,tr
 pristine.addValidator(textHashtags, hasValidCount, errorText.INVALID_COUNT,3,true); // невалидное кол-во хэштегов
 
 
-uploadForm.addEventListener('submit', onUploadFormSubmit); //проверка на валидацию
+uploadForm.addEventListener('submit', onUploadFormSubmit); // проверка на валидацию
 uploadInput.addEventListener('change', openModal);
-initSlider(); //бегунок слайдера
+initSlider(); // бегунок слайдера
 initScale(); // маштабирование
 

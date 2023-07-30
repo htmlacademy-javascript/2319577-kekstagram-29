@@ -3,10 +3,10 @@ const MIN_SCALE = 25; // минимальный размер картинки
 const MAX_SCALE = 100; // максимальный размер картинки
 const DEFAULT_SCALE = 100; // стандартное значение размера картинки
 
-const smallerBtnElement = document.querySelector('.scale__control--smaller');
-const biggerBtnElement = document.querySelector('.scale__control--bigger');
-const scaleValueElement = document.querySelector('.scale__control--value');
-const photoElement = document.querySelector('.img-upload__preview img');
+const smallerBtnElement = document.querySelector('.scale__control--smaller'); // находим  кнопку -
+const biggerBtnElement = document.querySelector('.scale__control--bigger'); // находим  кнопку +
+const scaleValueElement = document.querySelector('.scale__control--value'); // находим значение масштаба отображения
+const photoElement = document.querySelector('.img-upload__preview img'); // находим изображение
 
 // Функция по преобразованию получаемого значения
 const scalePhoto = (value) => {
@@ -35,4 +35,4 @@ const initScale = () => { // добавляем обработчики собы�
   biggerBtnElement.addEventListener('click', onBiggerBtnClick);
 };
 
-export {resetScale, initScale};
+export {resetScale, initScale}; // экспорт в form-upload.js

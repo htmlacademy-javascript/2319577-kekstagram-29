@@ -15,4 +15,4 @@ const showAlertError = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {showAlertError};
+export {showAlertError}; // экспорт в load.js
