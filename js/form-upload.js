@@ -28,7 +28,7 @@ const closeModal = () => {
   pristine.reset();
 
   uploadOverlay.classList.add('hidden');
-  bodyElement.classList.remove('.modal-open');
+  bodyElement.classList.remove('modal-open');
 
   uploadInput.value = '';
 
@@ -41,7 +41,7 @@ const closeModal = () => {
 // Функция открытия модального окна добавления нового изо-я
 const openModal = () => {
   uploadOverlay.classList.remove('hidden'); // показать подложку
-  bodyElement.classList.add('.modal-open'); // отключаем скрол под подложкой
+  bodyElement.classList.add('modal-open'); // отключаем скрол под подложкой
   showUploadPhoto(); // отображение загружаемой фото
   hideSlider(); // скрывается слайдер при первоночальном показе
 
