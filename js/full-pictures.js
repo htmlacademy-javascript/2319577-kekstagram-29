@@ -69,7 +69,7 @@ const renderCommentsList = (comments) => {
 
 // Функция подсчет кол-ва ком-ев ХХ из ХХ с учетом подгружаемых
 const renderCommentsCounter = (loadedComments, totalComments) => {
-  commentsCounter.textContent = `${loadedComments} из ${totalComments} комментариев`;
+  commentsCounter.innerHTML = `${loadedComments} из <span class="comments-count">${totalComments}</span> комментариев`;
 
   if (loadedComments === totalComments) { // если кол-во подгружаемых ком-ев = общему числу ком-ев, то скрыть кнопку "Загрузить еще"
     commentsLoader.classList.add('hidden');

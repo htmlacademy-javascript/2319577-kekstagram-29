@@ -1,12 +1,10 @@
 import {sendData} from './api.js';
 import {isEscapeKey} from './util.js';
-import {showBooklet} from './booklet.js';
+import {showUploadPhoto} from './user-photo.js';
+import {showSuccessMessage, showErrorMessage} from './message.js';
+import {pristine} from './form-validation.js';
 import {resetScale, initScale} from './scale.js';
 import {initSlider, hideSlider, resetEffect} from './effect-slider.js';
-
-const FILE_TYPES = ['jpg', 'jpeg', 'png', 'bmp', 'tif', 'webp', 'svg', 'gif', 'avif']; // Расширения поддерживаемых картинок
-const MAX_HASHTAG_COUNT = 5; // максимальное кол-во хэштегов
-const ALLOWED_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i; // допустимые символы ввода
 
 const bodyElement = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay'); // находим форму редактирования изо-й
@@ -16,25 +14,11 @@ const uploadCancel = document.querySelector('.img-upload__cancel'); // нахо�
 const textHashtags = uploadOverlay.querySelector('.text__hashtags'); // находим поле ввода хэштегов
 const textDescription = uploadOverlay.querySelector('.text__description'); // находим поле ввода ком-ев
 const uploadForm = document.querySelector('.img-upload__form'); // находим форму для загрузки нов. изо-я
-const photoPreview = document.querySelector('.img-upload__preview img'); // загруженное фото для обрабоки
-const effectPreviews = document.querySelectorAll('.effects__preview'); //наложение эффекта на изображение
 
 const submitText = { // текст на кнопке "Опубликовать"
   UNBLOCK: 'Опубликовать',
   BLOCK: 'Публикую...'
 };
-
-const errorText = { // комментарии ошибок ввода
-  INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хэштегов`,
-  NOT_UNIQUE: 'Хэштеги должны быть уникальными',
-  INVALID_PATTERN: 'Неправильный хэштег',
-};
-
-const pristine = new Pristine(uploadForm, { // добавление функции-конструктора Pristine
-  classTo: 'img-upload__field-wrapper', // элемент, на который нужно добавить валидацию (обертка в html)
-  errorTextParent: 'img-upload__field-wrapper', // форма ошибки
-  errorTextClass: 'img-upload__field-wrapper--error', // добавляет стиль для ошибки
-}/*, false*/); // если оставить false, то ошибки будут отображаться только после нажатия кнопки отправки
 
 // Функция закрытия модального окна добавления нового изо-я
 const closeModal = () => {
@@ -48,7 +32,7 @@ const closeModal = () => {
 
   uploadInput.value = '';
 
-  // удаляем обработчик событий
+  // удаляем обработчики событий
   document.removeEventListener('keydown', onDocumentKeydown);
   textHashtags.removeEventListener('keydown', onFormFieldKeydown);
   textDescription.removeEventListener('keydown', onFormFieldKeydown);
@@ -63,25 +47,11 @@ const openModal = () => {
 
   uploadCancel.addEventListener('click', closeModal);
 
-  // добавление обработчика событий
+  // добавление обработчиков событий
   document.addEventListener('keydown', onDocumentKeydown);
   textHashtags.addEventListener('keydown', onFormFieldKeydown);
   textDescription.addEventListener('keydown', onFormFieldKeydown);
 };
-
-// Функция отображения загружаемой карточки (фото)
-function showUploadPhoto () {
-  const file = uploadInput.files[0]; // получение единственного файла
-  const fileName = file.name.toLowerCase(); // приводим название загружаемого файла к одному регистру
-  const matchs = FILE_TYPES.some((extention) => fileName.endsWith(extention)); // проверка расширения файла .some() пройдемся по массиву с помошью .endsWith()
-
-  if (matchs) {
-    photoPreview.src = URL.createObjectURL(file); // метод URL.createObjectURL() делает ссылку на содержимое для отображения
-    effectPreviews.forEach((preview) => { // превью эффекта фильтра из загруженной фото
-      preview.style.backgroundImage = `url(${photoPreview.src})`;
-    });
-  }
-}
 
 // Функция разблокировки кнопки "Опубликовать", после получения ответа от сервера
 function unblockUploadSubmit () {
@@ -95,29 +65,27 @@ function blockUploadSubmit () {
   uploadSubmit.textContent = submitText.BLOCK;
 }
 
-// Хэштеги должны удовлетворять условиям ТЗ
-const normalizeTags = (tagString) => tagString // нормализуем введеные хэштеги
-  .trim() // обрезаются лишние пробелы
-  .split(' ') // разделение по пробелам
-  .filter((tag) => Boolean(tag.length)); // оставляет только заполненные хэштеги
-
-const hasValidCount = (value) => normalizeTags(value).length <= MAX_HASHTAG_COUNT; // проверка кол-ва хэштегов (не более 5 шт.)
-
-const hasValidTags = (value) => normalizeTags(value) // проверка ввода допустимых символов (проверка валидности хэштега)
-  .every((tag) => ALLOWED_SYMBOLS // проверка каждого элемента массива
-    .test(tag)); // возвращает true или false, если соответствует допустимым символам, или нет
-
-const hasUniqueTags = (value) => { // проверка уникальности введенного хэштега (не должны повторяться)
-  const lowerCaseTags = normalizeTags(value).map((tag) => tag.toLowerCase()); // после нормализации, переводим введеный хэштег в строчную запись
-  return lowerCaseTags.length === new Set(lowerCaseTags).size; // метод Set хранит в себе только уникальные элементы (выполняем сравнение)
-};
-
 // Функция отмены действия нажатия Esc для закрытия модалки, когда курсор в поле ввода форм
 function onFormFieldKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.stopPropagation();
   }
 }
+
+// Находим элементы в фокусе
+// const isInputFocus = () => {
+//   if (document.activeElement === textHashtags || document.activeElement === textDescription) {
+//     return true;
+//   }
+// };
+
+// Функция для закрытия подложки при нажатии Esc, за исключением, когда поле ввода в фокусе
+// function onFormFieldKeydown (evt) {
+//   if (isEscapeKey(evt) && !(isInputFocus())) {
+//     evt.preventDefault();
+//     closeModal();
+//   }
+// }
 
 // Функция закрытия модалки при нажатии Esc
 function onDocumentKeydown (evt) {
@@ -127,6 +95,18 @@ function onDocumentKeydown (evt) {
   }
 }
 
+textHashtags.addEventListener('keydown', (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.stopPropagation();
+  }
+});
+
+textDescription.addEventListener('keydown', (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.stopPropagation();
+  }
+});
+
 // Функция отображения Всплывающих сообщений
 const uploadFormData = async () => {
   try {
@@ -134,31 +114,16 @@ const uploadFormData = async () => {
     blockUploadSubmit(); // блокировать кнопку "Опубликовать"
     await sendData(formData);
     unblockUploadSubmit(); // разблокировать кнопку "Опубликовать"
-    showBooklet('success'); // показать сообщение об успешной загрузке фото
-    closeModal ();
+    showSuccessMessage(); // показать сообщение об успешной загрузке фото
+    closeModal();
   } catch {
-    showBooklet('error'); // показать сообщение об ошибке загрузки фото
+    showErrorMessage(); // показать сообщение об ошибке загрузки фото
     unblockUploadSubmit(); // разблокировать кнопку "Опубликовать"
   }
 };
 
-// Функция подтверждения валидности формы
-const onUploadFormSubmit = (evt) => {
-  evt.preventDefault();
-  if (!pristine.validate()) {
-    return;
-  }
-  uploadFormData ();
-};
-
-// Очередность проверок введенных данных
-pristine.addValidator(textHashtags, hasUniqueTags, errorText.NOT_UNIQUE,1,true); // не уникальный хэштег
-pristine.addValidator(textHashtags, hasValidTags, errorText.INVALID_PATTERN,2,true); // невалидный сам хэштег
-pristine.addValidator(textHashtags, hasValidCount, errorText.INVALID_COUNT,3,true); // невалидное кол-во хэштегов
-
-
-uploadForm.addEventListener('submit', onUploadFormSubmit); // проверка на валидацию
 uploadInput.addEventListener('change', openModal);
 initSlider(); // бегунок слайдера
 initScale(); // маштабирование
 
+export {onFormFieldKeydown, uploadFormData};
