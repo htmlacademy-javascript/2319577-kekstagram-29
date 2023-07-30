@@ -8,9 +8,6 @@ const bigPictureModalClose = bigPictureModal.querySelector('.big-picture__cancel
 const commentsLoader = bigPicture.querySelector('.comments-loader'); // находим кнопку "Загрузить еще"
 const commentsCounter = bigPicture.querySelector('.social__comment-count'); // текст ХХ ком-ев из ХХ
 
-const heart = bigPicture.querySelector('.likes-count');
-
-
 // Функция обработчика событий для нажатия с клавиатуры кнопки Esc, для закрытия модалки
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) { // логика: если нажимается кнопка Esc - делаешь то-то..
@@ -99,15 +96,6 @@ function fillBigPicture({ url, likes, comments, description }) {
   bigPicture.querySelector('.likes-count').textContent = likes; // записывается количество лайков
   bigPicture.querySelector('.social__caption').textContent = description; // записывается описание карточки
   bigPicture.dataset.comments = JSON.stringify(comments); // записывается число коментариев
-
-  heart.onclick = function () {
-    if (heart.classList.contains('added')) {
-      likes.textContent--;
-    } else {
-      likes.textContent++;
-    }
-    heart.classList.toggle('added');
-  };
 
   loadingStep = 1;
   const initialComments = comments.slice(0, COMMENTS_PER_PORTION); // отображение заданного кол-ва ком-ев
