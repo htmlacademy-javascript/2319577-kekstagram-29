@@ -7,7 +7,6 @@ const successMessage = document.querySelector('#success').content.querySelector(
 // Тип сообщения
 const typeMessage = () => document.querySelector('.error, .success');
 
-
 // Функция для закрытия сообщения с помощью клавиатуры
 function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
@@ -36,7 +35,6 @@ function onCloseMessage () {
   document.removeEventListener('keydown', onDocumentKeydown); // удалить обработчик событий при нажатии на клавишу
 }
 
-
 // Общая функция по показу сообщения
 const showMessage = (messageElement, closeBtnClass) => {
   document.body.append(messageElement); // добавляем элемент
@@ -45,12 +43,10 @@ const showMessage = (messageElement, closeBtnClass) => {
   messageElement.querySelector(closeBtnClass).addEventListener('click', onCloseMessage); // закрытие сообщения
 };
 
-
 // Функция по показу сообщения об успешной загрузки изображения
 const showSuccessMessage = () => {
   showMessage(successMessage, '.success__button');
 };
-
 
 // Функция по показу сообщения с ошибкой загрузки изображения
 const showErrorMessage = () => {
