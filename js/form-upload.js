@@ -126,4 +126,4 @@ uploadInput.addEventListener('change', openModal);
 initSlider(); // бегунок слайдера
 initScale(); // маштабирование
 
-export {onFormFieldKeydown, uploadFormData};
+export {onFormFieldKeydown, uploadFormData}; // экспорт в message.js и в form-validation.js

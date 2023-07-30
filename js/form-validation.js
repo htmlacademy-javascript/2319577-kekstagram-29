@@ -53,4 +53,4 @@ pristine.addValidator(textHashtags, hasValidCount, errorText.INVALID_COUNT,3,tru
 
 uploadForm.addEventListener('submit', onUploadFormSubmit); // проверка на валидацию
 
-export {pristine};
+export {pristine}; // экспорт в form-upload.js
