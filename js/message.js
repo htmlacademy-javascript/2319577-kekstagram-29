@@ -1,5 +1,4 @@
 import {isEscapeKey} from './util.js';
-import {onFormFieldKeydown} from './form-upload.js';
 
 const errorMessage = document.querySelector('#error').content.querySelector('.error'); // cообщение с ошибкой загрузки изображения
 const successMessage = document.querySelector('#success').content.querySelector('.success'); // cообщение об успешной загрузке изображения
@@ -12,6 +11,13 @@ function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     onCloseMessage();
+  }
+}
+
+// Функция отмены действия нажатия Esc для закрытия модалки, когда курсор в поле ввода форм
+function onFormFieldKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.stopPropagation();
   }
 }
 

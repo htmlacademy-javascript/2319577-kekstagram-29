@@ -23,9 +23,9 @@ const submitText = { // текст на кнопке "Опубликовать"
 // Функция закрытия модального окна добавления нового изо-я
 const closeModal = () => {
   uploadForm.reset(); // восстанавливает стандартные значения
+  pristine.reset(); // сброс пристина
   resetEffect(); // сброс эффектов слайдера
   resetScale(); // сброс эффектов маштаба
-  pristine.reset();
 
   uploadOverlay.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
@@ -34,8 +34,6 @@ const closeModal = () => {
 
   // удаляем обработчики событий
   document.removeEventListener('keydown', onDocumentKeydown);
-  textHashtags.removeEventListener('keydown', onFormFieldKeydown);
-  textDescription.removeEventListener('keydown', onFormFieldKeydown);
 };
 
 // Функция открытия модального окна добавления нового изо-я
@@ -49,8 +47,6 @@ const openModal = () => {
 
   // добавление обработчиков событий
   document.addEventListener('keydown', onDocumentKeydown);
-  textHashtags.addEventListener('keydown', onFormFieldKeydown);
-  textDescription.addEventListener('keydown', onFormFieldKeydown);
 };
 
 // Функция разблокировки кнопки "Опубликовать", после получения ответа от сервера
@@ -65,47 +61,20 @@ function blockUploadSubmit () {
   uploadSubmit.textContent = submitText.BLOCK;
 }
 
-// Функция отмены действия нажатия Esc для закрытия модалки, когда курсор в поле ввода форм
-function onFormFieldKeydown(evt) {
-  if (isEscapeKey(evt)) {
-    evt.stopPropagation();
-  }
-}
-
 // Находим элементы в фокусе
-// const isInputFocus = () => {
-//   if (document.activeElement === textHashtags || document.activeElement === textDescription) {
-//     return true;
-//   }
-// };
+const isInputFocus = () => {
+  if (document.activeElement === textHashtags || document.activeElement === textDescription) {
+    return true;
+  }
+};
 
 // Функция для закрытия подложки при нажатии Esc, за исключением, когда поле ввода в фокусе
-// function onFormFieldKeydown (evt) {
-//   if (isEscapeKey(evt) && !(isInputFocus())) {
-//     evt.preventDefault();
-//     closeModal();
-//   }
-// }
-
-// Функция закрытия модалки при нажатии Esc
 function onDocumentKeydown (evt) {
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && !(isInputFocus())) {
     evt.preventDefault();
     closeModal();
   }
 }
-
-textHashtags.addEventListener('keydown', (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.stopPropagation();
-  }
-});
-
-textDescription.addEventListener('keydown', (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.stopPropagation();
-  }
-});
 
 // Функция отображения Всплывающих сообщений
 const uploadFormData = async () => {
@@ -119,6 +88,7 @@ const uploadFormData = async () => {
   } catch {
     showErrorMessage(); // показать сообщение об ошибке загрузки фото
     unblockUploadSubmit(); // разблокировать кнопку "Опубликовать"
+    document.removeEventListener('keydown', onDocumentKeydown);
   }
 };
 
@@ -126,4 +96,4 @@ uploadInput.addEventListener('change', openModal);
 initSlider(); // бегунок слайдера
 initScale(); // маштабирование
 
-export {onFormFieldKeydown, uploadFormData}; // экспорт в message.js и в form-validation.js
+export {uploadFormData}; // экспорт в form-validation.js
