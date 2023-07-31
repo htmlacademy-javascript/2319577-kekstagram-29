@@ -58,4 +58,4 @@ function initializeFilters() {
   filterDiscussedButten.addEventListener('click', onFilterClick);
 }
 
-initializeFilters();
+export {initializeFilters}; // экспорт в load.js
