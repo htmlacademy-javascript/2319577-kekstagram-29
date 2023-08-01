@@ -6,6 +6,11 @@ import {pristine} from './form-validation.js';
 import {resetScale, initScale} from './scale.js';
 import {initSlider, hideSlider, resetEffect} from './effect-slider.js';
 
+const SubmitText = { // текст на кнопке "Опубликовать"
+  UNBLOCK: 'Опубликовать',
+  BLOCK: 'Публикую...'
+};
+
 const bodyElement = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay'); // находим форму редактирования изо-й
 const uploadInput = document.querySelector('.img-upload__input'); // находим поле загрузки изо-я
@@ -14,11 +19,6 @@ const uploadCancel = document.querySelector('.img-upload__cancel'); // нахо�
 const textHashtags = uploadOverlay.querySelector('.text__hashtags'); // находим поле ввода хэштегов
 const textDescription = uploadOverlay.querySelector('.text__description'); // находим поле ввода ком-ев
 const uploadForm = document.querySelector('.img-upload__form'); // находим форму для загрузки нов. изо-я
-
-const submitText = { // текст на кнопке "Опубликовать"
-  UNBLOCK: 'Опубликовать',
-  BLOCK: 'Публикую...'
-};
 
 // Функция закрытия модального окна добавления нового изо-я
 const closeModal = () => {
@@ -52,13 +52,13 @@ const openModal = () => {
 // Функция разблокировки кнопки "Опубликовать", после получения ответа от сервера
 function unblockUploadSubmit () {
   uploadSubmit.disabled = false;
-  uploadSubmit.textContent = submitText.UNBLOCK;
+  uploadSubmit.textContent = SubmitText.UNBLOCK;
 }
 
 // Функция блокировки кнопки "Опубликовать" для избежания отправки формы несколько раз
 function blockUploadSubmit () {
   uploadSubmit.disabled = true;
-  uploadSubmit.textContent = submitText.BLOCK;
+  uploadSubmit.textContent = SubmitText.BLOCK;
 }
 
 // Находим элементы в фокусе
