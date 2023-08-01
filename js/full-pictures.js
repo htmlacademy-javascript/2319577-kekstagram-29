@@ -1,6 +1,9 @@
 import {dataPhotos} from './load.js';
 import {isEscapeKey} from './util.js';
 
+const COMMENTS_PER_PORTION = 5; //кол-во подгружаемых ком-ев
+let loadingStep = 1;
+
 const bigPicture = document.querySelector('.big-picture'); // находим секцию (контейнер) модального окна
 const bigPictureModal = document.querySelector('.big-picture'); // находим секцию (контейнер) модального окна
 const picturesContainer = document.querySelector('.pictures'); // находим контейнер с изображениями всех карточек
@@ -77,9 +80,6 @@ const renderCommentsCounter = (loadedComments, totalComments) => {
     commentsLoader.classList.remove('hidden');
   }
 };
-
-const COMMENTS_PER_PORTION = 5; //кол-во подгружаемых ком-ев
-let loadingStep = 1;
 
 // Функция правильного отображения числа ком-ев, после подгрузки дополнительных
 function onCommentsLoaderClick () {

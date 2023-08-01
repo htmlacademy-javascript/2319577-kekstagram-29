@@ -3,15 +3,15 @@ import {uploadFormData} from './form-upload.js';
 const MAX_HASHTAG_COUNT = 5; // максимальное кол-во хэштегов
 const ALLOWED_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i; // допустимые символы ввода
 
-const uploadForm = document.querySelector('.img-upload__form'); // находим форму для загрузки нов. изо-я
-const uploadOverlay = document.querySelector('.img-upload__overlay'); // находим форму редактирования изо-й
-const textHashtags = uploadOverlay.querySelector('.text__hashtags'); // находим поле ввода хэштегов
-
-const errorText = { // комментарии ошибок ввода
+const ErrorText = { // комментарии ошибок ввода
   INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хэштегов`,
   NOT_UNIQUE: 'Хэштеги должны быть уникальными',
   INVALID_PATTERN: 'Неправильный хэштег',
 };
+
+const uploadForm = document.querySelector('.img-upload__form'); // находим форму для загрузки нов. изо-я
+const uploadOverlay = document.querySelector('.img-upload__overlay'); // находим форму редактирования изо-й
+const textHashtags = uploadOverlay.querySelector('.text__hashtags'); // находим поле ввода хэштегов
 
 const pristine = new Pristine(uploadForm, { // добавление функции-конструктора Pristine
   classTo: 'img-upload__field-wrapper', // элемент, на который нужно добавить валидацию (обертка в html)
@@ -46,9 +46,9 @@ const onUploadFormSubmit = (evt) => {
 };
 
 // Очередность проверок введенных данных
-pristine.addValidator(textHashtags, hasUniqueTags, errorText.NOT_UNIQUE,1,true); // не уникальный хэштег
-pristine.addValidator(textHashtags, hasValidTags, errorText.INVALID_PATTERN,2,true); // невалидный сам хэштег
-pristine.addValidator(textHashtags, hasValidCount, errorText.INVALID_COUNT,3,true); // невалидное кол-во хэштегов
+pristine.addValidator(textHashtags, hasUniqueTags, ErrorText.NOT_UNIQUE,1,true); // не уникальный хэштег
+pristine.addValidator(textHashtags, hasValidTags, ErrorText.INVALID_PATTERN,2,true); // невалидный сам хэштег
+pristine.addValidator(textHashtags, hasValidCount, ErrorText.INVALID_COUNT,3,true); // невалидное кол-во хэштегов
 
 
 uploadForm.addEventListener('submit', onUploadFormSubmit); // проверка на валидацию
