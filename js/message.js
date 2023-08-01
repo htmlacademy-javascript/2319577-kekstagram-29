@@ -60,4 +60,4 @@ const showErrorMessage = () => {
   document.removeEventListener('keydown', onFormFieldKeydown); // удалить обработчик событий при нажатии на клавишу
 };
 
-export {showSuccessMessage, showErrorMessage}; // экспорт в form-upload.js
+export {showSuccessMessage, showErrorMessage, typeMessage}; // экспорт в form-upload.js
