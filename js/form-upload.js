@@ -21,7 +21,7 @@ const textDescription = uploadOverlay.querySelector('.text__description'); // н
 const uploadForm = document.querySelector('.img-upload__form'); // находим форму для загрузки нов. изо-я
 
 // Функция закрытия модального окна добавления нового изо-я
-const closeUserOverlay = () => {
+const onUploadCancelClick = () => {
   uploadForm.reset(); // восстанавливает стандартные значения
   pristine.reset(); // сброс пристина
   resetEffect(); // сброс эффектов слайдера
@@ -37,13 +37,13 @@ const closeUserOverlay = () => {
 };
 
 // Функция открытия модального окна добавления нового изо-я
-const openUserOverlay = () => {
+const onUploadFileClick = () => {
   uploadOverlay.classList.remove('hidden'); // показать подложку
   bodyElement.classList.add('modal-open'); // отключаем скрол под подложкой
   showUploadPhoto(); // отображение загружаемой фото
   hideSlider(); // скрывается слайдер при первоночальном показе
 
-  uploadCancel.addEventListener('click', closeUserOverlay);
+  uploadCancel.addEventListener('click', onUploadCancelClick);
 
   // добавление обработчиков событий
   document.addEventListener('keydown', onDocumentKeydown);
@@ -73,7 +73,7 @@ function onDocumentKeydown (evt) {
   if (isEscapeKey(evt) && !(isInputFocus())) {
     evt.preventDefault();
     if (!typeMessage()) {
-      closeUserOverlay();
+      onUploadCancelClick();
     }
   }
 }
@@ -86,14 +86,14 @@ const uploadFormData = async () => {
     await sendData(formData);
     unblockUploadSubmit(); // разблокировать кнопку "Опубликовать"
     showSuccessMessage(); // показать сообщение об успешной загрузке фото
-    closeUserOverlay();
+    onUploadCancelClick();
   } catch {
     showErrorMessage(); // показать сообщение об ошибке загрузки фото
     unblockUploadSubmit(); // разблокировать кнопку "Опубликовать"
   }
 };
 
-uploadInput.addEventListener('change', openUserOverlay);
+uploadInput.addEventListener('change', onUploadFileClick);
 initSlider(); // бегунок слайдера
 initScale(); // маштабирование
 
