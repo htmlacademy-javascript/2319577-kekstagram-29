@@ -1,7 +1,7 @@
 import {sendData} from './api.js';
 import {isEscapeKey} from './util.js';
 import {showUploadPhoto} from './user-photo.js';
-import {showSuccessMessage, showErrorMessage} from './message.js';
+import {showSuccessMessage, showErrorMessage, typeMessage} from './message.js';
 import {pristine} from './form-validation.js';
 import {resetScale, initScale} from './scale.js';
 import {initSlider, hideSlider, resetEffect} from './effect-slider.js';
@@ -21,7 +21,7 @@ const textDescription = uploadOverlay.querySelector('.text__description'); // н
 const uploadForm = document.querySelector('.img-upload__form'); // находим форму для загрузки нов. изо-я
 
 // Функция закрытия модального окна добавления нового изо-я
-const closeModal = () => {
+const closeUserOverlay = () => {
   uploadForm.reset(); // восстанавливает стандартные значения
   pristine.reset(); // сброс пристина
   resetEffect(); // сброс эффектов слайдера
@@ -37,13 +37,13 @@ const closeModal = () => {
 };
 
 // Функция открытия модального окна добавления нового изо-я
-const openModal = () => {
+const openUserOverlay = () => {
   uploadOverlay.classList.remove('hidden'); // показать подложку
   bodyElement.classList.add('modal-open'); // отключаем скрол под подложкой
   showUploadPhoto(); // отображение загружаемой фото
   hideSlider(); // скрывается слайдер при первоночальном показе
 
-  uploadCancel.addEventListener('click', closeModal);
+  uploadCancel.addEventListener('click', closeUserOverlay);
 
   // добавление обработчиков событий
   document.addEventListener('keydown', onDocumentKeydown);
@@ -72,7 +72,9 @@ const isInputFocus = () => {
 function onDocumentKeydown (evt) {
   if (isEscapeKey(evt) && !(isInputFocus())) {
     evt.preventDefault();
-    closeModal();
+    if (!typeMessage()) {
+      closeUserOverlay();
+    }
   }
 }
 
@@ -84,15 +86,14 @@ const uploadFormData = async () => {
     await sendData(formData);
     unblockUploadSubmit(); // разблокировать кнопку "Опубликовать"
     showSuccessMessage(); // показать сообщение об успешной загрузке фото
-    closeModal();
+    closeUserOverlay();
   } catch {
     showErrorMessage(); // показать сообщение об ошибке загрузки фото
     unblockUploadSubmit(); // разблокировать кнопку "Опубликовать"
-    document.removeEventListener('keydown', onDocumentKeydown);
   }
 };
 
-uploadInput.addEventListener('change', openModal);
+uploadInput.addEventListener('change', openUserOverlay);
 initSlider(); // бегунок слайдера
 initScale(); // маштабирование
 
