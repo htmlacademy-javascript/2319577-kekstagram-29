@@ -10,19 +10,19 @@ const imageFilter = document.querySelector('.img-filters'); // находим к
 const imageFilterButton = imageFilter.querySelector('.img-filters__form'); // находим форму ввода с кнопками фильтров
 
 // Функция отбора 10 случайных не повторяющихся карточек
-function getRandomPhotos(arr) {
-  for (let i = 0 ; (i < NUMBER_OF_RANDOM_PHOTOS) && (i < arr.length) ; i++) {
-    const r = Math.floor(Math.random() * (arr.length - i)) + i;
-    const photo = arr[r];
-    arr[r] = arr[i];
-    arr[i] = photo;
+function getRandomPhotos(data) {
+  for (let i = 0 ; (i < NUMBER_OF_RANDOM_PHOTOS) && (i < data.length) ; i++) {
+    const r = Math.floor(Math.random() * (data.length - i)) + i;
+    const photo = data[r];
+    data[r] = data[i];
+    data[i] = photo;
   }
-  return arr.slice(0, NUMBER_OF_RANDOM_PHOTOS);
+  return data.slice(0, NUMBER_OF_RANDOM_PHOTOS);
 }
 
 // Функция сортировки карточек в порядке убывания по кол-ву ком-ев
-function getDiscussedPhotosFirst (arr) {
-  return arr.sort((a, b) => b.comments.length - a.comments.length);
+function getDiscussedPhotosFirst (data) {
+  return data.sort((a, b) => b.comments.length - a.comments.length);
 }
 
 // Функция выбора нужного фильтра с параметрами
