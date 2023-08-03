@@ -37,7 +37,7 @@ const onUploadCancelClick = () => {
 };
 
 // Функция открытия модального окна добавления нового изо-я
-const onUploadFileClick = () => {
+const onUploadFileChange = () => {
   uploadOverlay.classList.remove('hidden'); // показать подложку
   bodyElement.classList.add('modal-open'); // отключаем скрол под подложкой
   showUploadPhoto(); // отображение загружаемой фото
@@ -93,7 +93,7 @@ const uploadFormData = async () => {
   }
 };
 
-uploadInput.addEventListener('change', onUploadFileClick);
+uploadInput.addEventListener('change', onUploadFileChange);
 initSlider(); // бегунок слайдера
 initScale(); // маштабирование
 
